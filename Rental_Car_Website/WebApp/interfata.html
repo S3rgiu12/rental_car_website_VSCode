@@ -1,0 +1,71 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sediul de Inchiriere Masini - Acasă</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <style>
+        body {
+          background: url('https://c.wallhere.com/photos/3d/07/Dodge_Dodge_Challenger_Hellcat_red-157601.jpg!s1') no-repeat center center fixed;
+            background-size: cover;
+            color: white;
+        }
+        .overlay {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 20px;
+            border-radius: 10px;
+        }
+        footer {
+            background-color: #f2f2f2;
+            padding: 25px;
+            color: black;
+        }
+        .container {
+            margin-top: 50px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>                        
+                </button>
+                <a class="navbar-brand" href="#">Sediul de Inchiriere Auto</a>
+            </div>
+            <div class="collapse navbar-collapse" id="myNavbar">
+                <ul class="nav navbar-nav">
+                    <li class="active"><a href="interfata.jsp">Acasă</a></li>
+                    <li><a href="${pageContext.request.contextPath}/Login.jsp">Contul meu</a></li>
+                    <li><a href="${pageContext.request.contextPath}/InchirieriAuto.jsp">Despre</a></li>
+                    <li><a href="${pageContext.request.contextPath}/Contact.jsp">Contact</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="${pageContext.request.contextPath}/Login.jsp">
+                    <span class="glyphicon glyphicon-log-in"></span> Autentificare</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container text-center overlay">
+        <h1>Bine ați venit la Sediul de Inchiriere SergiuRent</h1>
+        <p><strong>Numele administratorului:</strong> Dumitrașc Sergiu-Emilian</p>
+        <p><strong>Adresa firmei:</strong> Strada Științei nr. 4, Galați</p>
+        <p><strong>Moto-ul:</strong> "Sunt mereu aici pentru nevoile tale"</p>
+        <hr>
+        <p>Consultați oferta noastră de mașini și găsiți cea mai potrivită mașină pentru nevoile dumneavoastră.</p>
+        <a href="MasiniDisponibile.jsp" class="btn btn-primary">Verifică Mașinile Disponibile</a>
+    </div>
+    <footer class="container-fluid text-center">
+        <p>&copy; 2024 Sediul de Inchiriere Masini. Toate drepturile rezervate.</p>
+    </footer>
+</body>
+</html>

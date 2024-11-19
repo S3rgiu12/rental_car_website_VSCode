@@ -1,0 +1,154 @@
+<%@ page import="java.sql.*" %>
+<%@ page import="javax.servlet.http.*, javax.servlet.*" %>
+<%@ page contentType="text/html" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Masini Disponibile</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <style>
+        body {
+            background: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcScRCCuhYa2YdTDns0D-wSPFLEX31EIDynDiQ&s') no-repeat center center fixed;
+            background-size: cover;
+            font-family: Arial, sans-serif;
+            color: white;
+        }
+        .container {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 50px;
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .table thead th {
+            background-color: #555;
+            color: white;
+        }
+        .btn-rezerva {
+            margin-top: 10px;
+        }
+        .message {
+            text-align: center;
+            font-size: 18px;
+            margin-top: 20px;
+            color: lightgreen;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Masini Disponibile pe perioada selectata:</h2>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Locatie Ridicare</th>
+                    <th>Locatie Returnare</th>
+                    <th>Data Ridicare</th>
+                    <th>Data Returnare</th>
+                    <th>Marca</th>
+                    <th>Model</th>
+                    <th>Pret Inchiriere</th>
+                    <th>Acțiune</th>
+                </tr>
+            </thead>
+            <tbody>
+                <%
+                    String locatieRidic = request.getParameter("locatieRidic");
+                    String locatieReturn = request.getParameter("locatieReturn");
+                    String dataRidic = request.getParameter("dataRidic");
+                    String dataReturn = request.getParameter("dataReturn");
+                    String marca = request.getParameter("marca");
+                    String model = request.getParameter("model");
+                    String pretInchiriereParam = request.getParameter("pretInchiriere");
+                    float pretInchiriere = 0;
+
+                    if (pretInchiriereParam != null && !pretInchiriereParam.isEmpty()) {
+                        try {
+                            pretInchiriere = Float.parseFloat(pretInchiriereParam);
+                        } catch (NumberFormatException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    Connection conn = null;
+                    PreparedStatement stmt = null;
+                    ResultSet rs = null;
+                    
+                    try {
+                        Class.forName("com.mysql.cj.jdbc.Driver");
+                        conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/inchirieri auto", "root", "");
+
+                        String sql = "SELECT * FROM masini_disponibile WHERE locatieRidic LIKE ? AND locatieReturn LIKE ? AND dataRidic >= ? AND dataReturn <= ? AND marca LIKE ? AND model LIKE ? AND pretInchiriere <= ?";
+                        stmt = conn.prepareStatement(sql);
+                        stmt.setString(1, "%" + locatieRidic + "%");
+                        stmt.setString(2, "%" + locatieReturn + "%");
+                        stmt.setString(3, dataRidic);
+                        stmt.setString(4, dataReturn);
+                        stmt.setString(5, "%" + marca + "%");
+                        stmt.setString(6, "%" + model + "%");
+                        stmt.setFloat(7, pretInchiriere);
+
+                        rs = stmt.executeQuery();
+
+                        boolean hasResults = rs.next();
+
+                        if (!hasResults) {
+                            out.println("<tr><td colspan='8'>Nu s-au găsit mașini disponibile.</td></tr>");
+                        } else {
+                            do {
+                %>
+                <tr>
+                    <td><%= rs.getString("locatieRidic") %></td>
+                    <td><%= rs.getString("locatieReturn") %></td>
+                    <td><%= rs.getDate("dataRidic") %></td>
+                    <td><%= rs.getDate("dataReturn") %></td>
+                    <td><%= rs.getString("marca") %></td>
+                    <td><%= rs.getString("model") %></td>
+                    <td><%= rs.getFloat("pretInchiriere") %></td>
+                    <td>
+                        <form action="RezervaMasinaServlet" method="post">
+                            <input type="hidden" name="locatieRidic" value="<%= rs.getString("locatieRidic") %>">
+                            <input type="hidden" name="locatieReturn" value="<%= rs.getString("locatieReturn") %>">
+                            <input type="hidden" name="dataRidic" value="<%= rs.getDate("dataRidic") %>">
+                            <input type="hidden" name="dataReturn" value="<%= rs.getDate("dataReturn") %>">
+                            <input type="hidden" name="marca" value="<%= rs.getString("marca") %>">
+                            <input type="hidden" name="model" value="<%= rs.getString("model") %>">
+                            <input type="hidden" name="pretInchiriere" value="<%= rs.getFloat("pretInchiriere") %>">
+                            <button type="submit" title="Rezerva acum masina mult dorita" class="btn btn-primary btn-rezerva">Rezerva acum</button>
+                        </form>
+                    </td>
+                </tr>
+                <%
+                            } while (rs.next());
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        out.println("<tr><td colspan='8'>A apărut o eroare: " + e.getMessage() + "</td></tr>");
+                    } finally {
+                        try { if (rs != null) rs.close(); } catch (SQLException e) { e.printStackTrace(); }
+                        try { if (stmt != null) stmt.close(); } catch (SQLException e) { e.printStackTrace(); }
+                        try { if (conn != null) conn.close(); } catch (SQLException e) { e.printStackTrace(); }
+                    }
+                %>
+            </tbody>
+        </table>
+        <%
+            String mesajRezervare = (String) request.getAttribute("mesajRezervare");
+            if (mesajRezervare != null) {
+        %>
+            <div class="message"><%= mesajRezervare %></div>
+        <%
+            }
+        %>
+    </div>
+    <footer class="container-fluid text-center">
+        <p>&copy; 2024 Sediul de Inchiriere Masini. Toate drepturile rezervate.</p>
+    </footer>
+</body>
+</html>
+

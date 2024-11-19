@@ -1,0 +1,137 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="java.sql.*, InchiriereMasini.ConnectionJDBC" %>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Rezervări Mașini</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <style>
+        body {
+            background: url('https://images.unsplash.com/photo-1612544448445-b8232cff3b6c?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxleHBsb3JlLWZlZWR8MXx8fGVufDB8fHx8fA%3D%3D') no-repeat center center fixed;
+            background-size: cover;
+            font-family: Arial, sans-serif;
+            color: white;
+        }
+        .container {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 50px;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        label, input {
+            color: white;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .table {
+            color: white;
+        }
+        th {
+            background-color: #333;
+        }
+        td {
+            background-color: #555;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Adaugă Rezervare</h1>
+        <form action="adaugaRezervare" method="post">
+            <div class="form-group">
+                <label for="idRezervare">ID Rezervare:</label>
+                <input type="text" class="form-control" id="idRezervare" name="idRezervare" required>
+            </div>
+            <div class="form-group">
+                <label for="client">Client:</label>
+                <input type="text" class="form-control" id="client" name="client" required>
+            </div>
+            <div class="form-group">
+                <label for="masina">Mașina:</label>
+                <input type="text" class="form-control" id="masina" name="masina" required>
+            </div>
+              <div class="form-group">
+                <label for="nrInmatric">Numar Inmatriculare:</label>
+                <input type="text" class="form-control" id="nrInmatric" name="nrInmatric" required>
+            </div>
+            <div class="form-group">
+                <label for="dataRezervare">Data Incepere Rezervare:</label>
+                <input type="date" class="form-control" id="dataRezervare" name="dataRezervare" required>
+            </div>
+             <div class="form-group">
+                <label for="dataIncheiereRezerv">Data Incheiere Rezervare:</label>
+                <input type="date" class="form-control" id="dataIncheiereRezerv" name="dataIncheiereRezerv" required>
+            </div>
+            <div class="form-group">
+                <label for="status">Status:</label>
+                <input type="text" class="form-control" id="status" name="status" required>
+            </div>
+             <div class="form-group">
+                <label for="idClient">ID Client:</label>
+                <input type="text" class="form-control" id="idClient" name="idClient" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Adaugă</button>
+        </form>
+        
+        <h1>Lista Rezervări</h1>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>ID Rezervare</th>
+                    <th>Client</th>
+                    <th>Mașina</th>
+                    <th>Numar Inmatriculare</th>
+                    <th>Data Incepere Rezervare</th>
+                    <th>Data Incheiere Rezervare</th>
+                    <th>Status</th>
+                    <th>ID Client</th>
+                </tr>
+            </thead>
+            <tbody>
+                <%
+                    Connection conn = null;
+                    Statement stmt = null;
+                    ResultSet rs = null;
+                    try {
+                        conn = ConnectionJDBC.getConnection();
+                        stmt = conn.createStatement();
+                        rs = stmt.executeQuery("SELECT * FROM rezervari_consilier");
+                        while (rs.next()) {
+                            String idRezervare = rs.getString("idRezervare");
+                            String client = rs.getString("client");
+                            String masina = rs.getString("masina");
+                            String nrInmatric = rs.getString("nrInmatric");
+                            Date dataRezervare = rs.getDate("dataRezervare");
+                            Date dataIncheiereRezerv = rs.getDate("dataIncheiereRezerv");
+                            String status = rs.getString("status");
+                            String idClient = rs.getString("idClient");
+                %>
+                <tr>
+                    <td><%= idRezervare %></td>
+                    <td><%= client %></td>
+                    <td><%= masina %></td>
+                    <td><%= nrInmatric %></td>
+                    <td><%= dataRezervare %></td>
+                    <td><%= dataIncheiereRezerv %></td>
+                    <td><%= status %></td>
+                    <td><%= idClient %></td>
+                </tr>
+                <%
+                        }
+                    } catch (SQLException | ClassNotFoundException e) {
+                        e.printStackTrace();
+                    } finally {
+                        ConnectionJDBC.closeAll(conn, stmt, rs);
+                    }
+                %>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

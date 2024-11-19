@@ -1,0 +1,85 @@
+<%@ page import="java.sql.Connection, java.sql.ResultSet, java.sql.Statement, java.sql.SQLException" %>
+<%@ page import="InchiriereMasini.ConnectionJDBC" %>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Modele de masini inchiriate in trecut</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <style>
+        body {
+            background-image: url("https://c.wallhere.com/photos/1f/47/1920x1200_px_car_Ford_Ford_Mustang_GT_Ford_Mustang_GT_Apollo_Edition-676201.jpg!s1");
+            background-size: cover; /* Ajustează această proprietate pentru a redimensiona imaginea */
+            background-repeat: no-repeat;
+            background-position: center center; /* Poziționează imaginea în centrul paginii */
+            background-attachment: fixed; /* Păstrează imaginea fixă când se derulează pagina */
+            color: #333; /* Asigură-te că textul este vizibil pe fundal */
+        }
+        .container {
+            margin-top: 20px;
+            background-color: rgba(255, 255, 255, 0.8); /* Adaugă un fundal semi-transparent pentru container */
+            padding: 20px;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Modele de masini inchiriate in trecut</h2>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>ID Masina</th>
+                    <th>Marca</th>
+                    <th>Model</th>
+                    <th>Numar Inmatriculare</th>
+                    <th>An Fabricatie</th>
+                    <th>Nr Locuri</th>
+                    <th>Capac Cilindric</th>
+                    <th>Cai Putere</th>
+                    <th>Disponibila</th>
+                    <th>Combustibil</th>
+                    <th>Manager Auto</th>
+                    <th>Vezi Oferte Inchiriere</th> <!-- Adaugă o coloană pentru buton -->
+                </tr>
+            </thead>
+            <tbody>
+                <%
+                    Connection conn = null;
+                    Statement stmt = null;
+                    ResultSet rs = null;
+                    try {
+                        conn = ConnectionJDBC.getConnection();
+                        stmt = conn.createStatement();
+                        String query = "SELECT * FROM masina"; // Modifică numele tabelului și coloanele conform bazei tale de date
+                        rs = stmt.executeQuery(query);
+                        while (rs.next()) {
+                %>
+                            <tr>
+                                <td><%= rs.getString("idMasina") %></td>
+                                <td><%= rs.getString("marca") %></td>
+                                <td><%= rs.getString("model") %></td>
+                                <td><%= rs.getString("nrInmatriculare") %></td>
+                                <td><%= rs.getString("anFabricatie") %></td>
+                                <td><%= rs.getInt("nrLocuri") %></td>
+                                <td><%= rs.getInt("capacCilindric") %></td>
+                                <td><%= rs.getInt("caiPutere") %></td>
+                                <td><%= rs.getString("disponibila") %></td>
+                                <td><%= rs.getString("combustibil") %></td>
+                                <td><%= rs.getString("managerAuto") %></td>
+                                
+                                <td><a href="oferte_inchiriere.jsp?idMasina=<%= rs.getString("idMasina") %>">Vezi preturi inchirieri</a></td> <!-- Butonul pentru a vedea ofertele de închiriere -->
+                            </tr>
+                <%
+                        }
+                    } catch (ClassNotFoundException | SQLException e) {
+                        e.printStackTrace();
+                    } finally {
+                        ConnectionJDBC.closeAll(conn, stmt, rs);
+                    }
+                %>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

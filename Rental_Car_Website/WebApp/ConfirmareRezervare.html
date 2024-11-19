@@ -1,0 +1,93 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="java.sql.*" %>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Confirmare Rezervare</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <style>
+        body {
+            background: url('https://images.unsplash.com/photo-1612544448445-b8232cff3b6c?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxleHBsb3JlLWZlZWR8MXx8fGVufDB8fHx8fA%3D%3D') no-repeat center center fixed;
+            background-size: cover;
+            font-family: Arial, sans-serif;
+            color: white;
+        }
+        .container {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 50px;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .message {
+            text-align: center;
+            font-size: 18px;
+            margin-top: 20px;
+        }
+        .section {
+            margin-bottom: 20px;
+        }
+        .section h2, .section button {
+            color: white;
+        }
+        .btn {
+            margin: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Confirmare Rezervare</h1>
+        <form action="ConfirmareRezervare.jsp" method="post">
+            <div class="form-group">
+                <label for="idRezervare">ID Rezervare:</label>
+                <input type="text" class="form-control" id="idRezervare" name="idRezervare">
+            </div>
+            <button type="submit" class="btn btn-success">Confirmă</button>
+        </form>
+
+        <%
+            String idRezervare = request.getParameter("idRezervare");
+            if (idRezervare != null && !idRezervare.trim().isEmpty()) {
+                String url = "jdbc:mysql://localhost:3306/inchirieri auto";
+                String user = "root";
+                String password = "";
+
+                Connection conn = null;
+                PreparedStatement pstmt = null;
+
+                try {
+                    Class.forName("com.mysql.cj.jdbc.Driver");
+                    conn = DriverManager.getConnection(url, user, password);
+
+                    String sql = "UPDATE rezervari_consilier SET status = 'confirmata' WHERE idRezervare = ?";
+                    pstmt = conn.prepareStatement(sql);
+                    pstmt.setString(1, idRezervare);
+
+                    int rowsUpdated = pstmt.executeUpdate();
+                    if (rowsUpdated > 0) {
+        %>
+                        <div class="message">Rezervarea cu ID-ul  <%= idRezervare %> a fost confirmată cu succes.</div>
+        <%
+                    } else {
+        %>
+                        <div class="message">Nu s-a găsit nicio rezervare cu ID-ul  <%= idRezervare %>.</div>
+        <%
+                    }
+                } catch (Exception e) {
+        %>
+                    <div class="message">Eroare la confirmarea rezervării: <%= e.getMessage() %></div>
+        <%
+                } finally {
+                    if (pstmt != null) try { pstmt.close(); } catch (SQLException e) { e.printStackTrace(); }
+                    if (conn != null) try { conn.close(); } catch (SQLException e) { e.printStackTrace(); }
+                }
+            }
+        %>
+    </div>
+</body>
+</html>

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adăugare Client</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <style>
+        body {
+            background: url('https://images.unsplash.com/photo-1612544448445-b8232cff3b6c?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxleHBsb3JlLWZlZWR8MXx8fGVufDB8fHx8fA%3D%3D') no-repeat center center fixed;
+            background-size: cover;
+            font-family: Arial, sans-serif;
+            color: white;
+        }
+        .container {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 50px;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .message {
+            text-align: center;
+            font-size: 18px;
+            margin-top: 20px;
+        }
+        .section {
+            margin-bottom: 20px;
+        }
+        .section h2, .section button {
+            color: white;
+        }
+        .btn {
+            margin: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Adăugare Client</h1>
+        <form id="adauga-client-form">
+            <div class="form-group">
+                <label for="idClient">ID Client</label>
+                <input type="text" id="idClient" name="idClient" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="nume">Nume</label>
+                <input type="text" id="nume" name="nume" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="prenume">Prenume</label>
+                <input type="text" id="prenume" name="prenume" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="dataNastere">Data Nașterii</label>
+                <input type="date" id="dataNastere" name="dataNastere" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="adresa">Adresă</label>
+                <input type="text" id="adresa" name="adresa" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="telefon">Telefon</label>
+                <input type="text" id="telefon" name="telefon" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="idPermis">ID Permis</label>
+                <input type="text" id="idPermis" name="idPermis" class="form-control" required>
+            </div>
+            <button type="button" id="submit-button" class="btn btn-primary">Adaugă Client</button>
+        </form>
+        <div id="response-message" style="margin-top: 20px;"></div>
+    </div>
+
+    <script>
+        document.getElementById('submit-button').addEventListener('click', () => {
+            const form = document.getElementById('adauga-client-form');
+            const formData = new FormData(form);
+
+            fetch('/adauga-client', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('response-message').innerHTML = `<div class="alert alert-success">${data}</div>`;
+            })
+            .catch(error => {
+                document.getElementById('response-message').innerHTML = `<div class="alert alert-danger">Eroare: ${error.message}</div>`;
+            });
+        });
+    </script>
+</body>
+</html>

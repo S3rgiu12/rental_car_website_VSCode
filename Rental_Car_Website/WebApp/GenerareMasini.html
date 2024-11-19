@@ -1,0 +1,149 @@
+<%@ page import="java.sql.Connection" %>
+<%@ page import="java.sql.PreparedStatement" %>
+<%@ page import="java.sql.ResultSet" %>
+<%@ page import="InchiriereMasini.ConnectionJDBC" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Căutare Mașini</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <style>
+        body {
+            background: url('https://images.unsplash.com/photo-1612544448445-b8232cff3b6c?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxleHBsb3JlLWZlZWR8MXx8fGVufDB8fHx8fA%3D%3D') no-repeat center center fixed;
+            background-size: cover;
+            font-family: Arial, sans-serif;
+            color: white;
+        }
+        .container {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 50px;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .form-group label, .form-group input {
+            color: white;
+        }
+        .alert {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Căutare Mașini Disponibile Pentru Clienți</h1>
+        <%
+            String message = "";
+            String messageType = "";
+
+            if ("POST".equalsIgnoreCase(request.getMethod())) {
+                String locatieRidic = request.getParameter("locatieRidic");
+                String locatieReturn = request.getParameter("locatieReturn");
+                String dataRidic = request.getParameter("dataRidic");
+                String dataReturn = request.getParameter("dataReturn");
+                String marca = request.getParameter("marca");
+                String model = request.getParameter("model");
+                String pretInchiriereStr = request.getParameter("pretInchiriere");
+                
+                Connection conn = null;
+                PreparedStatement pstmt = null;
+                ResultSet rs = null;
+
+                try {
+                    conn = ConnectionJDBC.getConnection();
+
+                    String sql = "SELECT * FROM masini_disponibile WHERE locatieRidic = ? AND locatieReturn = ? AND dataRidic = ? AND dataReturn = ? AND marca = ? AND model = ? AND pretInchiriere = ?";
+                    pstmt = conn.prepareStatement(sql);
+                    pstmt.setString(1, locatieRidic);
+                    pstmt.setString(2, locatieReturn);
+                    pstmt.setDate(3, java.sql.Date.valueOf(dataRidic));
+                    pstmt.setDate(4, java.sql.Date.valueOf(dataReturn));
+                    pstmt.setString(5, marca);
+                    pstmt.setString(6, model);
+                    pstmt.setDouble(7, Double.parseDouble(pretInchiriereStr));
+
+                    rs = pstmt.executeQuery();
+
+                    if (rs.next()) {
+                        message = "Există mașini disponibile pe criteriile selectate!";
+                        messageType = "success";
+                    } else {
+                        message = "Nicio mașină nu corespunde criteriilor de căutare.";
+                        messageType = "warning";
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    message = "A apărut o eroare: " + e.getMessage();
+                    messageType = "danger";
+                } finally {
+                    if (rs != null) try { rs.close(); } catch (Exception e) { e.printStackTrace(); }
+                    if (pstmt != null) try { pstmt.close(); } catch (Exception e) { e.printStackTrace(); }
+                    if (conn != null) try { conn.close(); } catch (Exception e) { e.printStackTrace(); }
+                }
+            }
+        %>
+        <%
+            if (!message.isEmpty()) {
+        %>
+        <div class="alert alert-<%= messageType %>"><%= message %></div>
+        <%
+            }
+        %>
+        <form action="GenerareMasini.jsp" method="post" class="form-horizontal">
+            <div class="form-group">
+                <label for="locatieRidic" class="col-sm-2 control-label">Locație ridicare:</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="locatieRidic" name="locatieRidic" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="locatieReturn" class="col-sm-2 control-label">Locație returnare:</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="locatieReturn" name="locatieReturn" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="dataRidic" class="col-sm-2 control-label">Data ridicare:</label>
+                <div class="col-sm-10">
+                    <input type="date" class="form-control" id="dataRidic" name="dataRidic" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="dataReturn" class="col-sm-2 control-label">Data returnare:</label>
+                <div class="col-sm-10">
+                    <input type="date" class="form-control" id="dataReturn" name="dataReturn" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="marca" class="col-sm-2 control-label">Marcă:</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="marca" name="marca" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="model" class="col-sm-2 control-label">Model:</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="model" name="model" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="pretInchiriere" class="col-sm-2 control-label">Preț închiriere:</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="pretInchiriere" name="pretInchiriere" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <button type="submit" class="btn btn-primary">Caută mașină</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
+

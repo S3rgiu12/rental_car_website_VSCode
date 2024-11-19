@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Adăugare Mașină Recomandata si inchiriata in trecut</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <style>
+        body {
+            background: url('https://images.unsplash.com/photo-1612544448445-b8232cff3b6c?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxleHBsb3JlLWZlZWR8MXx8fGVufDB8fHx8fA%3D%3D') no-repeat center center fixed;
+            background-size: cover;
+            font-family: Arial, sans-serif;
+            color: white;
+        }
+        .container {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 50px;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .message {
+            text-align: center;
+            font-size: 18px;
+            margin-top: 20px;
+        }
+        .section {
+            margin-bottom: 20px;
+        }
+        .section h2, .section button {
+            color: white;
+        }
+        .btn {
+            margin: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Adăugare Mașină Recomandata si Inchiriata in Trecut</h1>
+        <form action="AdaugaMasinaServlet" method="post">
+        <div class="form-group">
+                <label for="idMasina">ID Masina:</label>
+                <input type="text" class="form-control" id="idMasina" name="idMasina">
+            </div>
+            <div class="form-group">
+                <label for="marca">Marca:</label>
+                <input type="text" class="form-control" id="marca" name="marca">
+            </div>
+            <div class="form-group">
+                <label for="model">Model:</label>
+                <input type="text" class="form-control" id="model" name="model">
+            </div>
+             <div class="form-group">
+                <label for="nrInmatriculare">Numar Inmatriculare:</label>
+                <input type="text" class="form-control" id="nrInmatriculare" name="nrInmatriculare">
+            </div>
+            <div class="form-group">
+                <label for="anFabricatie">An Fabricatie:</label>
+                <input type="number" class="form-control" id="anFabricatie" name="anFabricatie">
+            </div>
+            <div class="form-group">
+                <label for="nrLocuri">Număr Locuri:</label>
+                <input type="number" class="form-control" id="nrLocuri" name="nrLocuri">
+            </div>
+            <div class="form-group">
+                <label for="capacCilindric">Capacitate Cilindrică:</label>
+                <input type="number" class="form-control" id="capacCilindric" name="capacCilindric">
+            </div>
+            <div class="form-group">
+                <label for="caiPutere">Cai Putere:</label>
+                <input type="number" class="form-control" id="caiPutere" name="caiPutere">
+            </div>
+            <div class="form-group">
+                <label for="disponibila">Disponibilă:</label>
+                <input type="text" class="form-control" id="disponibila" name="disponibila">
+            </div>
+            <div class="form-group">
+                <label for="combustibil">Combustibil:</label>
+                <input type="text" class="form-control" id="combustibil" name="combustibil">
+            </div>
+            <div class="form-group">
+                <label for="managerAuto">Proprietar Auto:</label>
+                <input type="text" class="form-control" id="managerAuto" name="managerAuto">
+            </div>
+            
+            <button type="submit" class="btn btn-success">Adaugă</button>
+        </form>
+    </div>
+</body>
+</html>

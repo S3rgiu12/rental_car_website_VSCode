@@ -1,0 +1,105 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Consilier de Închirieri Auto</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <style>
+        body {
+            background: url('https://images.unsplash.com/photo-1612544448445-b8232cff3b6c?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxleHBsb3JlLWZlZWR8MXx8fGVufDB8fHx8fA%3D%3D') no-repeat center center fixed;
+            background-size: cover;
+            font-family: Arial, sans-serif;
+            color: white;
+            display: flex;
+            justify-content: center; /* Aliniere orizontală în centru */
+            align-items: center; /* Aliniere verticală în centru */
+            height: 100vh; /* Înălțimea ferestrei vizibile */
+            margin: 0;
+        }
+        .container {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 800px; /* Limităm lățimea containerului pentru a se păstra pe ecran */
+            text-align: center; /* Alineare text în centru */
+        }
+        h1 {
+            margin-bottom: 30px;
+        }
+        .message {
+            font-size: 18px;
+            margin-top: 20px;
+        }
+        .section {
+            margin-bottom: 20px;
+        }
+        .section h2, .section button {
+            color: white;
+        }
+        .btn {
+            margin: 5px;
+        }
+        .footer {
+            margin-top: 20px;
+            text-align: center;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Bine ai venit, domnule consilier, Popescu George!</h1>
+        <div class="message">
+            <p>Acesta este panoul de control pentru consilierii de închirieri auto.</p>
+        </div>
+
+        <!-- Secțiunea pentru gestionarea rezervărilor -->
+        <div class="section">
+            <h2>Gestionare Rezervări</h2>
+            <button class="btn btn-primary" onclick="location.href='AfisareRezervari.jsp'">Vizualizare Rezervări</button>
+            <button class="btn btn-success" onclick="location.href='ConfirmareRezervare.jsp'">Confirmare Rezervare</button>
+            <button class="btn btn-danger" onclick="location.href='AnulareRezervare.jsp'">Anulare Rezervare</button>
+        </div>
+
+        <!-- Secțiunea pentru gestionarea flotei de mașini -->
+        <div class="section">
+            <h2>Gestionare Flotă</h2>
+            <button class="btn btn-primary" onclick="location.href='Flota.jsp'">Vizualizare Flotă de Masini Inchiriate in Trecut</button>
+            <button class="btn btn-success" onclick="location.href='AdaugaMasina.jsp'">Adăugare Mașină Dupa Expirarea Contractului de Inchiriere</button>
+            <button class="btn btn-warning" onclick="location.href='ModificaStatusMasina.jsp'">Modificare Status Mașină</button>
+        </div>
+
+        <!-- Secțiunea pentru interacțiunea cu clienții -->
+        <div class="section">
+            <h2>Interacțiune cu Clienți</h2>
+            <button class="btn btn-primary" onclick="location.href='Clienti.jsp'">Vizualizare Clienți Autentificati</button>
+            <button class="btn btn-info" onclick="location.href='SuportClienti.jsp'">Suport Raspuns Clienți </button>
+            <button class="btn btn-success" onclick="location.href='AdaugaClient.jsp'">Adăugare Clienți Autentificati</button>
+             <button class="btn btn-success" onclick="location.href='AdaugareContract.jsp'">Adăugare Contract de Inchiriere</button>
+        </div>
+
+        <!-- Secțiunea pentru raportare și analiză -->
+        <div class="section">
+            <h2>Raportare și Analiză</h2>
+            <button class="btn btn-primary" onclick="location.href='Rapoarte.jsp'">Generare Rapoarte</button>
+            <button class="btn btn-info" onclick="location.href='VizualizareStatistici.jsp'">Vizualizare Statistici</button>
+        </div>
+        
+        <div class="section">
+            <h2>Căutare mașini disponibile în funcție de criteriile clienților</h2>
+            <button class="btn btn-primary" onclick="location.href='GenerareMasini.jsp'">Masini Disponibile Pentru Clienti</button>
+       </div>
+        <!-- Formularul pentru deconectare -->
+        <form action="Login.jsp" method="post">
+            <button type="submit" class="btn btn-danger">Deconectare</button>
+        </form>
+        
+        <!-- Footer -->
+        <div class="footer">
+            <p>© 2023 Administrator</p>
+        </div>
+    </div>
+</body>
+</html>
+

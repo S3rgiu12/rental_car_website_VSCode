@@ -1,0 +1,511 @@
+<%@ page import="java.sql.*" %>
+<%@ page import="InchiriereMasini.ConnectionJDBC" %>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Statistici pentru Consilierul de Inchirieri</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <style>
+        body {
+            background: url('https://images.unsplash.com/photo-1612544448445-b8232cff3b6c?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxleHBsb3JlLWZlZWR8MXx8fGVufDB8fHx8fA%3D%3D') no-repeat center center fixed;
+            background-size: cover;
+            font-family: Arial, sans-serif;
+            color: white;
+        }
+        .container {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 50px;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .message {
+            text-align: center;
+            font-size: 18px;
+            margin-top: 20px;
+        }
+        .section {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .score {
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            border-radius: 10px;
+            font-size: 36px;
+            margin-bottom: 10px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid white;
+            padding: 8px;
+            text-align: center;
+        }
+        th {
+            background-color: rgba(0, 0, 0, 0.7);
+        }
+        td {
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+    </style>
+    <script>
+        function afisareStatistici() {
+            document.getElementById("statisticiGenerale").style.display = "block";
+            document.getElementById("statisticiAnualeRezervari").style.display = "none";
+            document.getElementById("statisticiAnualeMasini").style.display = "none";
+            document.getElementById("statisticiAnualeContracte").style.display = "none";
+        }
+
+        function afisareStatisticiAnualeRezervari() {
+            document.getElementById("statisticiGenerale").style.display = "none";
+            document.getElementById("statisticiAnualeRezervari").style.display = "block";
+            document.getElementById("statisticiAnualeMasini").style.display = "none";
+            document.getElementById("statisticiAnualeContracte").style.display = "none";
+        }
+
+        function afisareStatisticiAnualeMasini() {
+            document.getElementById("statisticiGenerale").style.display = "none";
+            document.getElementById("statisticiAnualeRezervari").style.display = "none";
+            document.getElementById("statisticiAnualeMasini").style.display = "block";
+            document.getElementById("statisticiAnualeContracte").style.display = "none";
+        }
+        function afisareStatisticiAnualeContracte() {
+            document.getElementById("statisticiGenerale").style.display = "none";
+            document.getElementById("statisticiAnualeRezervari").style.display = "none";
+            document.getElementById("statisticiAnualeMasini").style.display = "none";
+            document.getElementById("statisticiAnualeContracte").style.display = "block";
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>Statistici pentru Consilierul de Inchirieri</h1>
+        <button class="btn btn-primary" onclick="afisareStatistici()">Afisare statistici</button>
+        <button class="btn btn-primary" onclick="afisareStatisticiAnualeRezervari()">Statistici anuale de rezervari inregistrate</button>
+        <button class="btn btn-primary" onclick="afisareStatisticiAnualeMasini()">Statistici anuale de masini inchiriate</button>
+        <button class="btn btn-primary" onclick="afisareStatisticiAnualeContracte()">Statistici anuale de contracte inregistrate</button>
+        
+        <div id="statisticiGenerale" style="display:none;">
+            <!-- Secțiuni pentru statistici generale -->
+            <div class="section">
+                <h3>Numarul total de masini disponibile, spre inchiriere:</h3>
+                <% 
+                    Connection conn = null;
+                    Statement stmt = null;
+                    ResultSet rs = null;
+                    try {
+                        conn = ConnectionJDBC.getConnection();
+                        stmt = conn.createStatement();
+                        rs = stmt.executeQuery("SELECT COUNT(*) AS totalMasini FROM masina WHERE disponibila = 'disponibila'");
+                        if (rs.next()) {
+                            int numarMasiniDisponibile = rs.getInt("totalMasini");
+                %>
+                            <div class="score"><%= numarMasiniDisponibile %></div>
+                <%
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    } finally {
+                        if (rs != null) {
+                            try {
+                                rs.close();
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        if (stmt != null) {
+                            try {
+                                stmt.close();
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        if (conn != null) {
+                            try {
+                                conn.close();
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                %>
+            </div>
+
+            <div class="section">
+                <h3>Numarul total de clienti inregistrati pana acum:</h3>
+                <% 
+                    try {
+                        conn = ConnectionJDBC.getConnection();
+                        stmt = conn.createStatement();
+                        rs = stmt.executeQuery("SELECT COUNT(*) AS totalClienti FROM client");
+                        if (rs.next()) {
+                            int numarClienti = rs.getInt("totalClienti");
+                %>
+                            <div class="score"><%= numarClienti %></div>
+                <%
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    } finally {
+                        if (rs != null) {
+                            try {
+                                rs.close();
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        if (stmt != null) {
+                            try {
+                                stmt.close();
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        if (conn != null) {
+                            try {
+                                conn.close();
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                %>
+            </div>
+            
+            <div class="section">
+                <h3>Numarul total de rezervari inregistrate:</h3>
+                <% 
+                    try {
+                        conn = ConnectionJDBC.getConnection();
+                        stmt = conn.createStatement();
+                        rs = stmt.executeQuery("SELECT COUNT(*) AS totalRezervari FROM rezervari_consilier");
+                        if (rs.next()) {
+                            int numarRezervari = rs.getInt("totalRezervari");
+                %>
+                            <div class="score"><%= numarRezervari %></div>
+                <%
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    } finally {
+                        if (rs != null) {
+                            try {
+                                rs.close();
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        if (stmt != null) {
+                            try {
+                                stmt.close();
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        if (conn != null) {
+                            try {
+                                conn.close();
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                %>
+            </div>
+
+            <div class="section">
+                <h3>Numarul total de contracte de inchiriere inregistrate:</h3>
+                <% 
+                    try {
+                        conn = ConnectionJDBC.getConnection();
+                        stmt = conn.createStatement();
+                        rs = stmt.executeQuery("SELECT COUNT(*) AS totalContracte FROM contract");
+                        if (rs.next()) {
+                            int numarContracte = rs.getInt("totalContracte");
+                %>
+                            <div class="score"><%= numarContracte %></div>
+                <%
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    } finally {
+                        if (rs != null) {
+                            try {
+                                rs.close();
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        if (stmt != null) {
+                            try {
+                                stmt.close();
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        if (conn != null) {
+                            try {
+                                conn.close();
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                %>
+            </div>
+
+            <div class="section">
+                <h3>Numarul userilor inregistrati in ultima perioada:</h3>
+                <% 
+                    try {
+                        conn = ConnectionJDBC.getConnection();
+                        stmt = conn.createStatement();
+                        rs = stmt.executeQuery("SELECT COUNT(*) AS totalUseri FROM useri_autentificare");
+                        if (rs.next()) {
+                            int numarUseri = rs.getInt("totalUseri");
+                %>
+                            <div class="score"><%= numarUseri %></div>
+                <%
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    } finally {
+                        if (rs != null) {
+                            try {
+                                rs.close();
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        if (stmt != null) {
+                            try {
+                                stmt.close();
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        if (conn != null) {
+                            try {
+                                conn.close();
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                %>
+            </div>
+
+            <div class="section">
+                <h3>Suma totala din contractele de inchiriere incheiate, pana acum:</h3>
+                <% 
+                    try {
+                        conn = ConnectionJDBC.getConnection();
+                        stmt = conn.createStatement();
+                        rs = stmt.executeQuery("SELECT SUM(suma) AS sumaTotala FROM contract");
+                        if (rs.next()) {
+                            double sumaTotala = rs.getDouble("sumaTotala");
+                %>
+                             <div class="score"><%= String.format("%.2f", sumaTotala) %></div>
+                <%
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    } finally {
+                        if (rs != null) {
+                            try {
+                                rs.close();
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        if (stmt != null) {
+                            try {
+                                stmt.close();
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        if (conn != null) {
+                            try {
+                                conn.close();
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                %>
+            </div>
+        </div>
+
+        <div id="statisticiAnualeRezervari" style="display:none;">
+            <div class="section">
+                <h3>Statistici anuale pentru numarul de rezervari inregistrate</h3>
+                <table>
+                    <tr>
+                        <th>An</th>
+                        <th>Numar rezervari inregistrate</th>
+                    </tr>
+                    <% 
+                        try {
+                            conn = ConnectionJDBC.getConnection();
+                            stmt = conn.createStatement();
+                            // Query pentru a extrage numărul de rezervări înregistrate pentru fiecare an în parte
+                            rs = stmt.executeQuery("SELECT YEAR(dataRezervare) AS an, COUNT(*) AS numarRezervari FROM rezervari_consilier GROUP BY YEAR(dataRezervare)");
+                            while (rs.next()) {
+                                int an = rs.getInt("an");
+                                int numarRezervari = rs.getInt("numarRezervari");
+                    %>
+                                <tr>
+                                    <td><%= an %></td>
+                                    <td><%= numarRezervari %></td>
+                                </tr>
+                    <%
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        } finally {
+                            if (rs != null) {
+                                try {
+                                    rs.close();
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                            if (stmt != null) {
+                                try {
+                                    stmt.close();
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                            if (conn != null) {
+                                try {
+                                    conn.close();
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }
+                    %>
+                </table>
+            </div>
+        </div>
+
+        <div id="statisticiAnualeMasini" style="display:none;">
+            <div class="section">
+                <h3>Statistici anuale pentru numarul de masini inchiriate</h3>
+                <table>
+                    <tr>
+                        <th>An</th>
+                        <th>Numar masini inchiriate</th>
+                    </tr>
+                    <% 
+                        try {
+                            conn = ConnectionJDBC.getConnection();
+                            stmt = conn.createStatement();
+                            // Query pentru a extrage numărul de mașini închiriate pentru fiecare an în parte
+                            rs = stmt.executeQuery("SELECT YEAR(dataRidic) AS an, COUNT(*) AS numarMasiniInchiriate FROM masini_disponibile GROUP BY YEAR(dataRidic)");
+                            while (rs.next()) {
+                                int an = rs.getInt("an");
+                                int numarMasini = rs.getInt("numarMasiniInchiriate");
+                    %>
+                                <tr>
+                                    <td><%= an %></td>
+                                    <td><%= numarMasini %></td>
+                                </tr>
+                    <%
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        } finally {
+                            if (rs != null) {
+                                try {
+                                    rs.close();
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                            if (stmt != null) {
+                                try {
+                                    stmt.close();
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                            if (conn != null) {
+                                try {
+                                    conn.close();
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }
+                    %>
+                </table>
+            </div>
+        </div>
+         <div id="statisticiAnualeContracte" style="display:none;">
+            <div class="section">
+                <h3>Statistici anuale pentru numarul de contracte inregistrate</h3>
+                <table>
+                    <tr>
+                        <th>An</th>
+                        <th>Numar contracte inregistrate</th>
+                    </tr>
+                    <% 
+                        try {
+                            conn = ConnectionJDBC.getConnection();
+                            stmt = conn.createStatement();
+                            // Query pentru a extrage numărul de contracte înregistrate pentru fiecare an în parte
+                            rs = stmt.executeQuery("SELECT YEAR(dataIncepere) AS an, COUNT(*) AS numarContracte FROM contract GROUP BY YEAR(dataIncepere)");
+                            while (rs.next()) {
+                                int an = rs.getInt("an");
+                                int numarContracte = rs.getInt("numarContracte");
+                    %>
+                                <tr>
+                                    <td><%= an %></td>
+                                    <td><%= numarContracte %></td>
+                                </tr>
+                    <%
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        } finally {
+                            if (rs != null) {
+                                try {
+                                    rs.close();
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                            if (stmt != null) {
+                                try {
+                                    stmt.close();
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                            if (conn != null) {
+                                try {
+                                    conn.close();
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }
+                    %>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

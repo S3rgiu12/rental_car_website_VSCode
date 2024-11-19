@@ -1,0 +1,333 @@
+<%@ page import="java.sql.*" %>
+<%@ page import="java.util.*" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Generare Rapoarte</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <style>
+        body {
+            background: url('https://images.unsplash.com/photo-1612544448445-b8232cff3b6c?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxleHBsb3JlLWZlZWR8MXx8fGVufDB8fHx8fA%3D%3D') no-repeat center center fixed;
+            background-size: cover;
+            font-family: Arial, sans-serif;
+            color: white;
+        }
+        .container {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 50px;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .message {
+            text-align: center;
+            font-size: 18px;
+            margin-top: 20px;
+        }
+        .section {
+            margin-bottom: 20px;
+        }
+        .section h2, .section button {
+            color: white;
+        }
+        .btn {
+            margin: 5px;
+        }
+        table {
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid white;
+            text-align: center;
+        }
+        th, td {
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Generare Rapoarte</h1>
+        <form action="Rapoarte.jsp" method="post">
+            <div class="form-group">
+                <label for="tipRaport">Tip Raport:</label>
+                <select class="form-control" id="tipRaport" name="tipRaport">
+                    <option value="financiar">Financiar</option>
+                    <option value="rezervari">Rezervări</option>
+                    <option value="flota">Flotă</option>
+                    <option value="parcAuto">Parc Auto</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Generează</button>
+        </form>
+
+        <%
+            String tipRaport = request.getParameter("tipRaport");
+            String url = "jdbc:mysql://localhost:3306/inchirieri auto";
+            String user = "root";
+            String password = "";
+
+            Connection conn = null;
+            Statement stmt = null;
+            Statement stmtSum = null;
+            ResultSet rs = null;
+            ResultSet rsSum = null;
+
+            if ("financiar".equals(tipRaport)) {
+                float totalSuma = 0;
+                float totalReducere = 0;
+
+                try {
+                    Class.forName("com.mysql.cj.jdbc.Driver");
+                    conn = DriverManager.getConnection(url, user, password);
+                    stmt = conn.createStatement();
+                    stmtSum = conn.createStatement();
+
+                    String sql = "SELECT idMasina, suma, reducere FROM contract";
+                    rs = stmt.executeQuery(sql);
+
+                    String sqlSum = "SELECT SUM(suma) AS totalSuma, SUM(reducere) AS totalReducere FROM contract";
+                    rsSum = stmtSum.executeQuery(sqlSum);
+                    if (rsSum.next()) {
+                        totalSuma = rsSum.getFloat("totalSuma");
+                        totalReducere = rsSum.getFloat("totalReducere");
+                    }
+        %>
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>ID-ul Mașinii</th>
+                                <th>Suma Incasata in urma inchirierii</th>
+                                <th>Reducere pret inchiriere</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <%
+                                while (rs.next()) {
+                                    String idMasina = rs.getString("idMasina");
+                                    float suma = rs.getFloat("suma");
+                                    float reducere = rs.getFloat("reducere");
+                            %>
+                                    <tr>
+                                        <td><%= idMasina %></td>
+                                        <td><%= suma %></td>
+                                        <td><%= reducere %></td>
+                                    </tr>
+                            <%
+                                }
+                            %>
+                            <tr>
+                                <th>Total</th>
+                                <td><%= totalSuma %></td>
+                                <td><%= totalReducere %></td>
+                            </tr>
+                        </tbody>
+                    </table>
+        <%
+                } catch (Exception e) {
+        %>
+                    <div class="message">Eroare la preluarea datelor: <%= e.getMessage() %></div>
+        <%
+                } finally {
+                    if (rs != null) try { rs.close(); } catch (SQLException e) { e.printStackTrace(); }
+                    if (rsSum != null) try { rsSum.close(); } catch (SQLException e) { e.printStackTrace(); }
+                    if (stmt != null) try { stmt.close(); } catch (SQLException e) { e.printStackTrace(); }
+                    if (stmtSum != null) try { stmtSum.close(); } catch (SQLException e) { e.printStackTrace(); }
+                    if (conn != null) try { conn.close(); } catch (SQLException e) { e.printStackTrace(); }
+                }
+            } else if ("rezervari".equals(tipRaport)) {
+                try {
+                    Class.forName("com.mysql.cj.jdbc.Driver");
+                    conn = DriverManager.getConnection(url, user, password);
+                    stmt = conn.createStatement();
+
+                    String sql = "SELECT * FROM rezervari_consilier";
+                    rs = stmt.executeQuery(sql);
+        %>
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>ID Rezervare</th>
+                                <th>Client</th>
+                                <th>Mașina</th>                            
+                                 <th>Numar Inmatriculare</th>
+                                <th>Data Rezervare</th>
+                                <th>Data Incheiere Rezervare</th>
+                                <th>Status Rezervare</th>
+                                <th>ID Client</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <%
+                                while (rs.next()) {
+                                    String idRezervare = rs.getString("idRezervare");
+                                    String client = rs.getString("client");
+                                    String masina = rs.getString("masina");
+                                    String nrInmatric = rs.getString("nrInmatric");
+                                    String dataRezervare = rs.getString("dataRezervare");
+                                    String dataIncheiereRezerv = rs.getString("dataIncheiereRezerv");
+                                    String status = rs.getString("status");
+                                    String idClient = rs.getString("idClient");
+                            %>
+                                    <tr>
+                                        <td><%= idRezervare %></td>
+                                        <td><%= client %></td>
+                                        <td><%= masina %></td>
+                                         <td><%= nrInmatric %></td>
+                                        <td><%= dataRezervare %></td>
+                                        <td><%= dataIncheiereRezerv %></td>
+                                        <td><%= status %></td>
+                                        <td><%= idClient %></td>
+                                    </tr>
+                            <%
+                                }
+                            %>
+                        </tbody>
+                    </table>
+        <%
+                } catch (Exception e) {
+        %>
+                    <div class="message">Eroare la preluarea datelor: <%= e.getMessage() %></div>
+        <%
+                } finally {
+                    if (rs != null) try { rs.close(); } catch (SQLException e) { e.printStackTrace(); }
+                    if (stmt != null) try { stmt.close(); } catch (SQLException e) { e.printStackTrace(); }
+                    if (conn != null) try { conn.close(); } catch (SQLException e) { e.printStackTrace(); }
+                }
+            } else if ("flota".equals(tipRaport)) {
+                try {
+                    Class.forName("com.mysql.cj.jdbc.Driver");
+                    conn = DriverManager.getConnection(url, user, password);
+                    stmt = conn.createStatement();
+
+                    String sql = "SELECT * FROM masina";
+                    rs = stmt.executeQuery(sql);
+        %>
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>ID Mașină</th>
+                                <th>Marcă</th>
+                                <th>Model</th>
+                                 <th>Numar Inmatriculare</th>
+                                <th>An Fabricație</th>
+                                <th>Nr Locuri</th>
+                                <th>Capac Cilindric</th>
+                                <th>Cai Putere</th>
+                                <th>Disponibilă</th>
+                                <th>Combustibil</th>
+                                <th>Manager Auto</th>
+                                
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <%
+                                while (rs.next()) {
+                                    String idMasina = rs.getString("idMasina");
+                                    String marca = rs.getString("marca");
+                                    String model = rs.getString("model");
+                                    String nrInmatriculare = rs.getString("nrInmatriculare");
+                                    String anFabricatie = rs.getString("anFabricatie");
+                                    int nrLocuri = rs.getInt("nrLocuri");
+                                    int capacCilindric = rs.getInt("capacCilindric");
+                                    int caiPutere = rs.getInt("caiPutere");
+                                    String disponibila = rs.getString("disponibila");
+                                    String combustibil = rs.getString("combustibil");
+                                    String managerAuto = rs.getString("managerAuto");
+                                   
+                            %>
+                                    <tr>
+                                        <td><%= idMasina %></td>
+                                        <td><%= marca %></td>
+                                        <td><%= model %></td>
+                                        <td><%= nrInmatriculare %></td>
+                                        <td><%= anFabricatie %></td>
+                                        <td><%= nrLocuri %></td>
+                                        <td><%= capacCilindric %></td>
+                                        <td><%= caiPutere %></td>
+                                        <td><%= disponibila %></td>
+                                        <td><%= combustibil %></td>
+                                        <td><%= managerAuto %></td>
+                                       
+                                    </tr>
+                            <%
+                                }
+                            %>
+                        </tbody>
+                    </table>
+        <%
+                } catch (Exception e) {
+        %>
+                    <div class="message">Eroare la preluarea datelor: <%= e.getMessage() %></div>
+        <%
+                } finally {
+                    if (rs != null) try { rs.close(); } catch (SQLException e) { e.printStackTrace(); }
+                    if (stmt != null) try { stmt.close(); } catch (SQLException e) { e.printStackTrace(); }
+                    if (conn != null) try { conn.close(); } catch (SQLException e) { e.printStackTrace(); }
+                }
+            } else if ("parcAuto".equals(tipRaport)) {
+                try {
+                    Class.forName("com.mysql.cj.jdbc.Driver");
+                    conn = DriverManager.getConnection(url, user, password);
+                    stmt = conn.createStatement();
+
+                    String sql = "SELECT * FROM parc_auto";
+                    rs = stmt.executeQuery(sql);
+        %>
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>ID Parc</th>
+                                <th>Număr Mașini Deținute</th>
+                                <th>ID Manager Parc</th>
+                                <th>Locație Ridicare</th>
+                                <th>Locație Returnare</th>
+                               
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <%
+                                while (rs.next()) {
+                                    String idParc = rs.getString("idParc");
+                                    int nrMasiniDisp = rs.getInt("nrMasiniDisp");
+                                    String idManagerParc = rs.getString("idManagerParc");
+                                    String locatieRid = rs.getString("locatieRid");
+                                    String locatieRet = rs.getString("locatieRet");
+                                    
+                            %>
+                                    <tr>
+                                        <td><%= idParc %></td>
+                                        <td><%= nrMasiniDisp %></td>
+                                        <td><%= idManagerParc %></td>
+                                        <td><%= locatieRid %></td>
+                                        <td><%= locatieRet %></td>
+                                        
+                                    </tr>
+                            <%
+                                }
+                            %>
+                        </tbody>
+                    </table>
+        <%
+                } catch (Exception e) {
+        %>
+                    <div class="message">Eroare la preluarea datelor: <%= e.getMessage() %></div>
+        <%
+                } finally {
+                    if (rs != null) try { rs.close(); } catch (SQLException e) { e.printStackTrace(); }
+                    if (stmt != null) try { stmt.close(); } catch (SQLException e) { e.printStackTrace(); }
+                    if (conn != null) try { conn.close(); } catch (SQLException e) { e.printStackTrace(); }
+                }
+            }
+        %>
+    </div>
+</body>
+</html>
+

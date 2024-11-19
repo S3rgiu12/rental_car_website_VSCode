@@ -1,0 +1,115 @@
+<%@ page import="java.sql.Connection, java.sql.ResultSet, java.sql.Statement, java.sql.SQLException" %>
+<%@ page import="InchiriereMasini.ConnectionJDBC" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Vizualizare Flotă</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <style>
+        body {
+            background: url('https://images.unsplash.com/photo-1612544448445-b8232cff3b6c?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxleHBsb3JlLWZlZWR8MXx8fGVufDB8fHx8fA%3D%3D') no-repeat center center fixed;
+            background-size: cover;
+            font-family: Arial, sans-serif;
+            color: white;
+        }
+        .container {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 50px;
+        }
+        h1, h2, h3 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .message {
+            text-align: center;
+            font-size: 18px;
+            margin-top: 20px;
+        }
+        .section {
+            margin-bottom: 20px;
+        }
+        .section h2, .section button {
+            color: white;
+        }
+        .btn {
+            margin: 5px;
+        }
+        .hidden-table {
+            display: none;
+        }
+    </style>
+    <script>
+        function toggleTable(tableId) {
+            var table = document.getElementById(tableId);
+            if (table.style.display === "none") {
+                table.style.display = "table";
+            } else {
+                table.style.display = "none";
+            }
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>Flota de Mașini Inchiriate de-a Lungul Timpului</h1>
+        <div class="section">
+            <h2 onclick="toggleTable('fleetTable')" style="cursor: pointer;">Flota de Mașini Inchiriate in Trecut &#9660;</h2>
+            <table id="fleetTable" class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>ID masina</th>
+                        <th>Marca</th>
+                        <th>Model</th>
+                        <th>Numar Inmatriculare</th>
+                        <th>An Fabricatie</th>
+                        <th>Nr Locuri</th>
+                        <th>Capacitate Cilindrica</th>
+                        <th>Cai Putere</th>
+                        <th>Disponibila spre inchiriere</th>
+                        <th>Combustibil</th>
+                        <th>Proprietar Auto</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <%
+                        Connection conn = null;
+                        Statement stmt = null;
+                        ResultSet rs = null;
+                        try {
+                            conn = ConnectionJDBC.getConnection();
+                            stmt = conn.createStatement();
+                            String query = "SELECT * FROM masina"; // Modifică numele tabelului și coloanele conform bazei tale de date
+                            rs = stmt.executeQuery(query);
+                            while (rs.next()) {
+                    %>
+                                <tr>
+                                    <td><%= rs.getString("idMasina") %></td>
+                                    <td><%= rs.getString("marca") %></td>
+                                    <td><%= rs.getString("model") %></td>
+                                    <td><%= rs.getString("nrInmatriculare") %></td>
+                                    <td><%= rs.getDate("anFabricatie") %></td>
+                                    <td><%= rs.getInt("nrLocuri") %></td>
+                                    <td><%= rs.getInt("capacCilindric") %></td>
+                                    <td><%= rs.getInt("caiPutere") %></td>
+                                    <td><%= rs.getString("disponibila") %></td>
+                                    <td><%= rs.getString("combustibil") %></td>
+                                    <td><%= rs.getString("managerAuto") %></td>
+                                </tr>
+                    <%
+                            }
+                        } catch (ClassNotFoundException | SQLException e) {
+                            e.printStackTrace();
+                        } finally {
+                            ConnectionJDBC.closeAll(conn, stmt, rs);
+                        }
+                    %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,52 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Autentificare</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <style>
+        body {
+            background: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMIXuEj5XgjK63aOZW00kVI-9LC35YOtJcEQaUrCOkFz_t8Bz_MFLTwbfxtG9UWiPS2QE&usqp=CAU') no-repeat center center fixed;
+            background-size: cover;
+            color: white;
+        }
+        .overlay {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 50px;
+        }
+        h2, label {
+            color: white;
+        }
+        .forgot-password {
+            margin-top: 10px;
+            color: #6699FF;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="col-md-4 col-md-offset-4 overlay">
+            <h2>Autentificare</h2>
+            <form action="loginServlet" method="post">
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="email" class="form-control" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Parolă:</label>
+                    <input type="password" class="form-control" id="password" name="password" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Autentificare</button>
+                <a href="https://www.google.com/search?q=reset+password" class="forgot-password">Ai uitat parola?</a>
+            </form>
+             <form action="InchirieriAuto.jsp" method="post">
+            <button type="submit" class="btn btn-primary">Inapoi la pagina Principala</button>
+        </form>
+        </div>
+    </div>
+</body>
+</html>

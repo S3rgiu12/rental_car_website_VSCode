@@ -1,0 +1,157 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page import="java.sql.Connection" %>
+<%@ page import="java.sql.PreparedStatement" %>
+<%@ page import="java.sql.DriverManager" %>
+<%@ page import="java.sql.SQLException" %>
+<%@ page import="InchiriereMasini.ConnectionJDBC" %>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Adaugare contracte in urma inchirierii</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <style>
+        body {
+            background: url('https://images.unsplash.com/photo-1612544448445-b8232cff3b6c?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxleHBsb3JlLWZlZWR8MXx8fGVufDB8fHx8fA%3D%3D') no-repeat center center fixed;
+            background-size: cover;
+            font-family: Arial, sans-serif;
+            color: white;
+        }
+        .container {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 50px;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .message {
+            text-align: center;
+            font-size: 18px;
+            margin-top: 20px;
+        }
+        .section {
+            margin-bottom: 20px;
+        }
+        .section h2, .section button {
+            color: white;
+        }
+        .btn {
+            margin: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Adaugare contracte in urma inchirierii</h1>
+        
+        <%-- Verificăm dacă a fost trimis formularul și procesăm datele --%>
+        <% 
+            String message = ""; // Mesajul pentru feedback
+
+            if (request.getParameter("submit") != null) { 
+                // Preluăm parametri din formular
+                String idContract = request.getParameter("idContract");
+                String dataIncepere = request.getParameter("dataIncepere");
+                String dataIncheiere = request.getParameter("dataIncheiere");
+                String suma = request.getParameter("suma");
+                String reducere = request.getParameter("reducere");
+                String idMasina = request.getParameter("idMasina");
+
+                Connection connection = null;
+                PreparedStatement statement = null;
+
+                try {
+                    // Obținem conexiunea la baza de date dintr-o clasă separată (ConnectionJDBC)
+                    connection = ConnectionJDBC.getConnection();
+
+                    // SQL pentru insert
+                    String sql = "INSERT INTO contract (idContract, dataIncepere, dataIncheiere, suma, reducere, idMasina) VALUES (?, ?, ?, ?, ?, ?)";
+                    statement = connection.prepareStatement(sql);
+                    statement.setString(1, idContract);
+                    statement.setString(2, dataIncepere);
+                    statement.setString(3, dataIncheiere);
+                    statement.setString(4, suma);
+                    statement.setString(5, reducere);
+                    statement.setString(6, idMasina);
+
+                    // Executăm query
+                    int rowsInserted = statement.executeUpdate();
+                    if (rowsInserted > 0) {
+                        message = "Contractul a fost adăugat cu succes!";
+                    } else {
+                        message = "Nu s-a putut adăuga contractul.";
+                    }
+                } catch (SQLException | ClassNotFoundException e) {
+                    message = "Eroare la adăugarea contractului: " + e.getMessage();
+                } finally {
+                    // Închideți conexiunea și statement-ul
+                    try {
+                        if (statement != null) {
+                            statement.close();
+                        }
+                        if (connection != null) {
+                            connection.close();
+                        }
+                    } catch (SQLException ex) {
+                        message = "Eroare la închiderea conexiunii: " + ex.getMessage();
+                    }
+                }
+            }
+        %>
+        
+        <%-- Afișăm mesajul de feedback în funcție de operațiunea efectuată --%>
+        <div class="message">
+            <% if (!message.isEmpty()) { %>
+                <p style="color: <%= message.contains("succes") ? "green" : "red" %>;"><%= message %></p>
+            <% } %>
+        </div>
+        
+        <form action="AdaugareContract.html" method="post" class="form-horizontal">
+            <div class="form-group">
+                <label for="idContract" class="col-sm-2 control-label">ID Contract:</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="idContract" name="idContract" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="dataIncepere" class="col-sm-2 control-label">Data Incepere:</label>
+                <div class="col-sm-10">
+                    <input type="date" class="form-control" id="dataIncepere" name="dataIncepere" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="dataIncheiere" class="col-sm-2 control-label">Data Incheiere:</label>
+                <div class="col-sm-10">
+                    <input type="date" class="form-control" id="dataIncheiere" name="dataIncheiere" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="suma" class="col-sm-2 control-label">Suma:</label>
+                <div class="col-sm-10">
+                    <input type="number" class="form-control" id="suma" name="suma" step="0.01" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="reducere" class="col-sm-2 control-label">Reducere:</label>
+                <div class="col-sm-10">
+                    <input type="number" class="form-control" id="reducere" name="reducere" step="0.01">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="idMasina" class="col-sm-2 control-label">ID Masina:</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="idMasina" name="idMasina" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <button type="submit" name="submit" class="btn btn-success">Adaugă Contract</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

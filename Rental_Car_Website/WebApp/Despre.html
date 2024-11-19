@@ -1,0 +1,118 @@
+<%@ page import="java.util.List" %>
+<%@ page import="InchiriereMasini.Client" %>
+<%@ page import="InchiriereMasini.ConnectionJDBC" %>
+<%@ page import="java.sql.Connection" %>
+<%@ page import="java.sql.ResultSet" %>
+<%@ page import="java.sql.Statement" %>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Despre - Sediul de Inchiriere Masini</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <style>
+        body {
+            background-image: url('https://c.wallhere.com/photos/3d/07/Dodge_Dodge_Challenger_Hellcat_red-157601.jpg!s1');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+        .content {
+            margin: 50px;
+            padding: 20px;
+            background-color: rgba(249, 249, 249, 0.9); /* culoarea fundalului cu transparență */
+            border-radius: 10px;
+        }
+        .table-container {
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>                        
+                </button>
+                <a class="navbar-brand" href="#">Sediul de Inchiriere Masini</a>
+            </div>
+            <div class="collapse navbar-collapse" id="myNavbar">
+                <ul class="nav navbar-nav">
+                    <li><a href="${pageContext.request.contextPath}/interfata.jsp">Acasa</a></li>
+                    <li><a href="${pageContext.request.contextPath}/Login.jsp">Contul meu</a></li>
+                    <li class="active"><a href="${pageContext.request.contextPath}/Despre.jsp">Despre</a></li>
+                    <li><a href="${pageContext.request.contextPath}/Contact.jsp">Contact</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="${pageContext.request.contextPath}/Register.jsp">
+                    <span class="log-in"></span> Inregistrare Client</a></li>
+                    <li><a href="${pageContext.request.contextPath}/Login.jsp">
+                    <span class="log-in"></span> Autentificare</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container content">
+        <h1>Despre Noi</h1>
+        <p>Bine ati venit la Sediul de Inchiriere SergiuRent! Suntem dedicati sa va oferim cele mai bune servicii de inchiriere auto, cu o gama larga de masini de inalta calitate si preturi competitive.</p>
+        <p>Compania noastra a fost fondata cu scopul de a facilita calatoriile si de a oferi o experienta de inchiriere fara probleme pentru clientii nostri. Echipa noastra este formata din profesionisti cu experienta, pregatiti sa va asiste in alegerea masinii potrivite pentru nevoile dumneavoastra.</p>
+        <p>Indiferent daca aveti nevoie de o masina pentru o calatorie de afaceri, o vacanta sau o ocazie speciala, suntem aici sa va ajutam. Va multumim ca ati ales Sediul de Inchiriere Masini SergiuRent!</p>
+        
+        <!-- Adăugarea programului de funcționare al firmei -->
+        <div class="table-container">
+            <h3 style="text-align: center; margin-bottom: 20px;">Program de inchirieri si rezervari de masini la sediu fizic</h3>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Ziua</th>
+                        <th>Program</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Luni</td>
+                        <td>09:00 - 17:00</td>
+                    </tr>
+                    <tr>
+                        <td>Marti</td>
+                        <td>09:00 - 17:00</td>
+                    </tr>
+                    <tr>
+                        <td>Miercuri</td>
+                        <td>09:00 - 17:00</td>
+                    </tr>
+                    <tr>
+                        <td>Joi</td>
+                        <td>09:00 - 17:00</td>
+                    </tr>
+                    <tr>
+                        <td>Vineri</td>
+                        <td>09:00 - 17:00</td>
+                    </tr>
+                    <tr>
+                        <td>Sambata</td>
+                        <td>10:00 - 14:00</td>
+                    </tr>
+                    <tr>
+                        <td>Duminica</td>
+                        <td>Inchis</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <form action="InchirieriAuto.jsp" method="post">
+            <button type="submit" class="btn btn-primary">Inapoi la pagina Principala</button>
+        </form>
+    </div>
+    <footer class="container-fluid text-center">
+        <p>&copy; 2024 Sediul de Inchiriere Masini. Toate drepturile rezervate.</p>
+    </footer>
+</body>
+</html>

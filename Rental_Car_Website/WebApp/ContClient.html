@@ -1,0 +1,143 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" %>
+<%@ page import="javax.servlet.http.*,javax.servlet.*" %>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Contul Clientului</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <style>
+        body {
+            background: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcScRCCuhYa2YdTDns0D-wSPFLEX31EIDynDiQ&s') no-repeat center center fixed;
+            background-size: cover;
+            font-family: Arial, sans-serif;
+            color: white;
+        }
+        .container {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 50px;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .message {
+            text-align: center;
+            font-size: 18px;
+            margin-top: 20px;
+        }
+        .section {
+            margin-bottom: 20px;
+        }
+        .section h2, .section button {
+            color: white;
+        }
+        .btn {
+            margin: 5px;
+        }
+        .cart {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 10px;
+            border-radius: 10px;
+            color: white;
+        }
+        .cart a {
+            color: white;
+            text-decoration: none;
+        }
+        .cart .badge {
+            background-color: red;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <%
+        // Procesarea cererii POST pentru întrebarea către administrator
+        String adminMessage = null;
+        if ("POST".equalsIgnoreCase(request.getMethod())) {
+            String adminQuestion = request.getParameter("adminQuestion");
+            if (adminQuestion != null && !adminQuestion.trim().isEmpty()) {
+                // Logica de procesare a întrebării (de ex., salvarea în baza de date sau trimiterea unui email)
+                // În acest exemplu simplu, vom seta doar mesajul de confirmare
+                adminMessage = "Întrebarea către administrator a fost trimisă cu succes";
+                request.setAttribute("adminMessage", adminMessage);
+            }
+
+            // Procesarea cererii POST pentru întrebarea către consilierul de închirieri
+            String georgeQuestion = request.getParameter("georgeQuestion");
+            if (georgeQuestion != null && !georgeQuestion.trim().isEmpty()) {
+                // Logica de procesare a întrebării (de ex., salvarea în baza de date sau trimiterea unui email)
+                // În acest exemplu simplu, vom seta doar mesajul de confirmare
+                String georgeMessage = "Întrebarea către consilierul de închirieri, George, a fost trimisă cu succes";
+                request.setAttribute("georgeMessage", georgeMessage);
+            }
+        }
+    %>
+    <div class="container">
+        <div class="cart">
+            <a href="CosRezervari.jsp">
+                Coș rezervări: <span class="badge"><%= session.getAttribute("numarRezervari") != null ? session.getAttribute("numarRezervari") : 0 %></span>
+            </a>
+        </div>
+        <div class="header">
+            <h1>Bine ai venit în contul tău, Alin!</h1>
+            <p>Îți suntem aici la dispoziție cu toate informațiile despre orice mașină ai dori să închiriezi, mai multe detalii, găsești în site-ul de închirieri.</p>
+            <a href="InchirieriAuto.jsp" class="btn btn-primary">Vizualizare site de închirieri</a>
+        </div>
+        <div class="question-form">
+            <h2>Dacă ai vreo întrebare, te rog să mi-o adresezi aici:</h2>
+            <form action="ContClient.jsp" method="post">
+                <div class="form-group">
+                    <textarea class="form-control" id="adminQuestion" name="adminQuestion" rows="3" required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Trimite întrebarea</button>
+            </form>
+        </div>
+
+        <!-- Afișarea mesajului de confirmare pentru întrebarea către administrator -->
+        <%
+            adminMessage = (String) request.getAttribute("adminMessage");
+            if (adminMessage != null) {
+        %>
+            <div class="message alert alert-success">
+                <%= adminMessage %>
+            </div>
+        <%
+            }
+        %>
+
+        <div class="question-form">
+            <h2>Dacă ai vreo întrebare, pe care vrei să o adresezi consilierului de închirieri, George, o poți adresa aici:</h2>
+            <form action="ContClient.jsp" method="post">
+                <div class="form-group">
+                    <textarea class="form-control" id="georgeQuestion" name="georgeQuestion" rows="3" required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Trimite întrebarea</button>
+            </form>
+        </div>
+
+        <!-- Afișarea mesajului de confirmare pentru întrebarea către consilierul George -->
+        <%
+            String georgeMessage = (String) request.getAttribute("georgeMessage");
+            if (georgeMessage != null) {
+        %>
+            <div class="message alert alert-success">
+                <%= georgeMessage %>
+            </div>
+        <%
+            }
+        %>
+
+        <!-- Butonul de Deconectare -->
+        <div style="text-align: center; margin-top: 20px;">
+            <a href="Login.jsp" class="btn btn-danger">Deconectare</a>
+        </div>
+    </div>
+</body>
+</html>

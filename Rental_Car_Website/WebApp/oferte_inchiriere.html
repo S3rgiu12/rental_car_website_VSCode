@@ -1,0 +1,389 @@
+<%@ page import="java.sql.Connection, java.sql.ResultSet, java.sql.Statement, java.sql.SQLException" %>
+<%@ page import="InchiriereMasini.ConnectionJDBC" %>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Masini Inchiriate in Trecut</title>
+    <style>
+        body {
+            background: url('https://images.unsplash.com/photo-1612544448445-b8232cff3b6c?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxleHBsb3JlLWZlZWR8MXx8fGVufDB8fHx8fA%3D%3D') no-repeat center center fixed;
+            background-size: cover;
+            font-family: Arial, sans-serif;
+            color: white;
+        }
+        .btn-custom {
+            background-color: #ffc107;
+            border-color: #ffc107;
+            color: #000000;
+        }
+        .btn-custom:hover {
+            background-color: #ffa000;
+            border-color: #ffa000;
+            color: #000000;
+        }
+        .btn {
+            margin: 5px;
+        }
+        .card {
+            background-color: rgba(0, 0, 0, 0.7);
+            border-radius: 10px;
+            margin: 15px;
+            padding: 20px;
+            position: relative;
+        }
+        .card img {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+        }
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+        }
+        .col {
+            flex: 0 0 30%;
+            margin: 10px;
+        }
+        .card-title {
+            margin-top: 10px;
+        }
+        .indisponibila {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: red;
+            font-size: 2em;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px #000000;
+        }
+    </style>
+</head>
+<body>
+    <h1>Masini Inchiriate in Trecut</h1>
+    
+    <div class="container">
+        <div class="col">
+            <div class="card">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSOQkUlhcA3OCxxxsbzoqfy4AvRbl33nV_JUQuttc0LNg&s" alt="Audi A6 Quattro 2018">
+                <h5 class="card-title">Audi A6 Quattro 2018</h5>
+                <p>27&euro;/zi</p>
+                <ul class="row list-unstyled mb-3 gx-2 card-assets pt-3">
+                                <li class="col-3"><i class="far fa-gas-pump me-2"></i>Diesel</li>
+                                <li class="col-3"><i class="far fa-code-branch me-2"></i>manual</li>
+                                <li class="col-3"><i class="far fa-user me-2"></i>4 portiere</li>
+                                <li class="col-3"><i class="far fa-car me-2"></i>5 locuri</li>
+                            </ul>
+                            <span class="card-steps--title mb-3">1 - 3 zile</span>
+                                        <span class="card-steps--value mb-3">
+                                            Reducere aplicata -5 %
+                                        </span>
+                <p>Pret pentru 3 zile: 76.95&euro;</p>
+                <a href="Inchiriere.jsp" class="btn btn-warning btn-custom">Inchiriaza</a>
+            </div>
+        </div>
+        
+        <div class="col">
+            <div class="card">
+                <img src="https://static.automarket.ro/img/auto_resized/db/article/065/893/700648l-1000x640-b-cf17f187.jpg" alt="BMW M6">
+                 <div class="indisponibila">Indisponibila</div>
+                <h5 class="card-title">BMW M6</h5>
+                <p>30&euro;/zi</p>
+                 <ul class="row list-unstyled mb-3 gx-2 card-assets pt-3">
+                                    <li class="col-3"><i class="far fa-gas-pump me-2"></i>Diesel</li>
+                                    <li class="col-3"><i class="far fa-code-branch me-2"></i>automat</li>
+                                    <li class="col-3"><i class="far fa-user me-2"></i>2 portiere</li>
+                                    <li class="col-3"><i class="far fa-car me-2"></i>5 locuri</li>
+                                </ul>
+                                <span class="card-steps--title mb-3">1 - 3 zile</span>
+                                        <span class="card-steps--value mb-3">
+                                            Reducere aplicata -5 %
+                                        </span>
+                <p>Pret pentru 3 zile: 85.5&euro;</p>
+            </div>
+        </div>
+        
+        <div class="col">
+            <div class="card">
+                <img src="https://static.automarket.ro/img/auto_resized/db/article/059/881/996889l-1000x640-b-3df905ea.jpg" alt="Ford Mustang">
+                <h5 class="card-title">Ford Mustang</h5>
+                <p>27&euro;/zi</p>
+                <ul class="row list-unstyled mb-3 gx-2 card-assets pt-3">
+                                    <li class="col-3"><i class="far fa-gas-pump me-2"></i>Benzina</li>
+                                    <li class="col-3"><i class="far fa-code-branch me-2"></i>automat</li>
+                                    <li class="col-3"><i class="far fa-user me-2"></i>2 portiere</li>
+                                    <li class="col-3"><i class="far fa-car me-2"></i>5 locuri</li>
+                                </ul>
+                                <span class="card-steps--title mb-3">1 - 3 zile</span>
+                                        <span class="card-steps--value mb-3">
+                                           Reducere aplicata  -5 %
+                                        </span>
+                <p>Pret pentru 3 zile: 76.95&euro;</p>
+                <a href="Inchiriere.jsp" class="btn btn-warning btn-custom">Inchiriaza</a>
+            </div>
+        </div>
+    </div>
+    
+<div class="container">
+        <div class="col">
+            <div class="card">
+                <img src="https://www.autocritica.ro/wp-content/uploads/2023/06/mercedes-amg-g63-grand-edition-2-1800x1333.jpg" alt="Mercedes AMG G63">
+                <div class="indisponibila">Indisponibila</div>
+                <h5 class="card-title">Mercedes AMG G63</h5>
+                <p>33&euro;/zi</p>
+                <ul class="row list-unstyled mb-3 gx-2 card-assets pt-3">
+                                <li class="col-3"><i class="far fa-gas-pump me-2"></i>Benzina</li>
+                                <li class="col-3"><i class="far fa-code-branch me-2"></i>automat</li>
+                                <li class="col-3"><i class="far fa-user me-2"></i>4 portiere</li>
+                                <li class="col-3"><i class="far fa-car me-2"></i>5 locuri</li>
+                            </ul>
+                            <span class="card-steps--title mb-3">1 - 3 zile</span>
+                                        <span class="card-steps--value mb-3">
+                                            Reducere aplicata -5 %
+                                        </span>
+                <p>Pret pentru 3 zile: 93.95&euro;</p>
+            </div>
+        </div>
+        
+        <div class="col">
+            <div class="card">
+                <img src="https://ireland.apollo.olxcdn.com/v1/files/eyJmbiI6IjJxMWgycXg1bnAyNTMtQVVUT1ZJVFJPIn0.i0E9BTyuTXNjUqwtb1YORKZFXuSO9SjQ4G6a5ndaOLc/image;s=644x461" alt="Opel Insignia">
+                <h5 class="card-title">Opel Insignia</h5>
+                <p>25&euro;/zi</p>
+                 <ul class="row list-unstyled mb-3 gx-2 card-assets pt-3">
+                                    <li class="col-3"><i class="far fa-gas-pump me-2"></i>Benzina</li>
+                                    <li class="col-3"><i class="far fa-code-branch me-2"></i>manual</li>
+                                    <li class="col-3"><i class="far fa-user me-2"></i>4 portiere</li>
+                                    <li class="col-3"><i class="far fa-car me-2"></i>5 locuri</li>
+                                </ul>
+                                <span class="card-steps--title mb-3">1 - 3 zile</span>
+                                        <span class="card-steps--value mb-3">
+                                            Reducere aplicata -5 %
+                                        </span>
+                <p>Pret pentru 3 zile: 72.5&euro;</p>
+                <a href="Inchiriere.jsp" class="btn btn-warning btn-custom">Inchiriaza</a>
+            </div>
+        </div>
+        
+        <div class="col">
+            <div class="card">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRpEnWK6jnflfzAnieL4c_vffwmbB7u5yXPdQ&s" alt="Honda Civic">
+                <h5 class="card-title">Honda Civic</h5>
+                <p>27&euro;/zi</p>
+                <ul class="row list-unstyled mb-3 gx-2 card-assets pt-3">
+                                    <li class="col-3"><i class="far fa-gas-pump me-2"></i>Diesel</li>
+                                    <li class="col-3"><i class="far fa-code-branch me-2"></i>manual</li>
+                                    <li class="col-3"><i class="far fa-user me-2"></i>4 portiere</li>
+                                    <li class="col-3"><i class="far fa-car me-2"></i>5 locuri</li>
+                                </ul>
+                                <span class="card-steps--title mb-3">1 - 3 zile</span>
+                                        <span class="card-steps--value mb-3">
+                                           Reducere aplicata  -5 %
+                                        </span>
+                <p>Pret pentru 3 zile: 76.95&euro;</p>
+                <a href="Inchiriere.jsp" class="btn btn-warning btn-custom">Inchiriaza</a>
+            </div>
+        </div>
+    </div>
+
+<div class="container">
+        <div class="col">
+            <div class="card">
+                <img src="https://eleircbucuresti.b-cdn.net/poze_masini/E53%20AMG/3b51a540-8526-415d-a5ec-4e3d88033042.png" alt="Mercedes AMG">
+                <h5 class="card-title">Mercedes AMG</h5>
+                <p>29&euro;/zi</p>
+                <ul class="row list-unstyled mb-3 gx-2 card-assets pt-3">
+                                <li class="col-3"><i class="far fa-gas-pump me-2"></i>Diesel</li>
+                                <li class="col-3"><i class="far fa-code-branch me-2"></i>automat</li>
+                                <li class="col-3"><i class="far fa-user me-2"></i>4 portiere</li>
+                                <li class="col-3"><i class="far fa-car me-2"></i>5 locuri</li>
+                            </ul>
+                            <span class="card-steps--title mb-3">1 - 3 zile</span>
+                                        <span class="card-steps--value mb-3">
+                                            Reducere aplicata -5 %
+                                        </span>
+                <p>Pret pentru 3 zile: 76.95&euro;</p>
+                <a href="Inchiriere.jsp" class="btn btn-warning btn-custom">Inchiriaza</a>
+            </div>
+        </div>
+        
+        <div class="col">
+            <div class="card">
+                <img src="data:image/jpeg;base64,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" alt="Mazda CX-5">
+                <div class="indisponibila">Indisponibila</div>
+                <h5 class="card-title">Mazda CX-5</h5>
+                <p>31&euro;/zi</p>
+                 <ul class="row list-unstyled mb-3 gx-2 card-assets pt-3">
+                                    <li class="col-3"><i class="far fa-gas-pump me-2"></i>Benzina</li>
+                                    <li class="col-3"><i class="far fa-code-branch me-2"></i>manual</li>
+                                    <li class="col-3"><i class="far fa-user me-2"></i>4 portiere</li>
+                                    <li class="col-3"><i class="far fa-car me-2"></i>5 locuri</li>
+                                </ul>
+                                <span class="card-steps--title mb-3">1 - 3 zile</span>
+                                        <span class="card-steps--value mb-3">
+                                            Reducere aplicata -5 %
+                                        </span>
+                <p>Pret pentru 3 zile: 87.75&euro;</p>
+            </div>
+        </div>
+        
+        <div class="col">
+            <div class="card">
+                <img src="https://adhgfzvyfq.cloudimg.io/v7/https://id-cs.com/media/car_images/car_308/Absolute_Black_AWD.png?w=1300" alt="Ford Mustang Mach-E SUV">
+                <h5 class="card-title">Ford Mustang Mach-E SUV</h5>
+                <p>33&euro;/zi</p>
+                <ul class="row list-unstyled mb-3 gx-2 card-assets pt-3">
+                                    <li class="col-3"><i class="far fa-gas-pump me-2"></i>Electric</li>
+                                    <li class="col-3"><i class="far fa-code-branch me-2"></i>automat</li>
+                                    <li class="col-3"><i class="far fa-user me-2"></i>4 portiere</li>
+                                    <li class="col-3"><i class="far fa-car me-2"></i>5 locuri</li>
+                                </ul>
+                                <span class="card-steps--title mb-3">1 - 3 zile</span>
+                                        <span class="card-steps--value mb-3">
+                                           Reducere aplicata  -5 %
+                                        </span>
+                <p>Pret pentru 3 zile: 95.5&euro;</p>
+                <a href="Inchiriere.jsp" class="btn btn-warning btn-custom">Inchiriaza</a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="container">
+        <div class="col">
+            <div class="card">
+                <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxASEhUTEhIWFhUVFxkSFhIXFRgSGBUSGBYWGBcXFRoYHSggGRslGxcXITEhJSkrLi4vFx8zODMtQygtLy4BCgoKDg0OFQ8PFysaFR0rLS0tLS0tKy0tKys3Nys3LTcrLTctKy0rNzctLi83LS0yMCs3NTgtLisrLS0rMCs4K//AABEIAMIBAwMBIgACEQEDEQH/xAAcAAEAAgMBAQEAAAAAAAAAAAAABQYDBAcCAQj/xABDEAACAQIDBAcEBggFBQEAAAABAgADEQQSIQUGMUETIlFhcYGRBzKhsRQjQnKCwRUzQ1JiorLRFlOS4fAXY6PCw3P/xAAXAQEBAQEAAAAAAAAAAAAAAAAAAQID/8QAHREBAQACAQUAAAAAAAAAAAAAABEBAiESMWFiof/aAAwDAQACEQMRAD8A7jERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBE8VaqqLswUdpNh6mQ+O3swFL38QngDm+UCbiUbF+1PZqaB834lH53kbV9r+F+wqnxcn5LEHS4nLX9rS8lpDxZv8AaeaftXLEKgoMx4KHJPpmliV1SJzen7QcUTYUKZPEqoqOwHaQtyB3zOm/+I54ZT3XdT6FTEV0GJSaHtBX9phaq24lbkD/AFqokpgt9sDU06TIexxa3iwuo9ZBYomLD4hHGZHVl/eUhh6iZYCIiAiIgIiICIiAiIgIiICIiAiIgIiICIkPvBvDSwmQMtSpUqnLSoUlz1KjDjYXAAFxdiQBAlatRVBZiAoFyxNgAOJJPASt7U3lNvqbKv8AnOp6w/7VM2LD+NrDgQHEicfi6tRga9ne4NPCp16dIjUE6fXVQdcxGVbdUC2Y/G2BWqdeuTrrkB/qbn5esIq+2Nq1arEUy9Q/adyGPrYKg/hUKO6UzejCYpUVgM1zYhFZsul76CdgG75tYLYdgFpWd+lGHpCkpAqVrrxtlpj3iey97evZKzy5DhsOTra5Papt5SaGxqoA6yrflwklgKdNai5l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oywByZi2pHC9hwkJtTHnGVGNJMlHOz5b31Yk2J0ubG2nAeMyrgq7cz6yKktrbr7IWmwp4rFtUt1SVpZL/wAS6EjwMotTZlYclPgw/OW6nsGs3b6Ezco7o12+y5/CYFZ3cw+Gp1c+MotWQDSir9GGbtdhrYdg49vI3WjvBsVfd2NR/Exf+omKG4OIb9m/ym/h/ZniG/Z28TAx0d89mp7uyMID29FTJ/pklh/afRT3MDRX7qqvyWZKHsoqHjlHmTJCj7JF+0w9IGs3tbRlKPhVKMCrISCrKRYgi1iCOUom+2NwGJpIcLg6eHqIxJFMBVqIRqCFA1BAIPiOc6nR9k2F+0bzbp+yrZ32kJ8yIH5pw2LyOGXkb/3EtuH29hgEK0yCKH0bogbhjmqtcc/eqA2sfdAvznbl9lOx+eFB8Wb+838J7Pdk0rFcFSuOZXMfU3gVb2bbZwuFw+WoWNes3S1SFJAawVUHcqKo7L3nRMHtSnV92+vaCJ8w+x8MnuUUXwUCba01HAAeUD3ERAREQEREBERAxVMMje8oPlI/E7u4V/epKfKSsQKviNw8C37O3gZH1vZngzwLDzl4iBzqr7KsOeFRh6TWqeyZOVY+k6dEDlTeyPsrD/TMR9kJ/wA4ek61EDkn/R7/AL49I/6MIeOIbyUfnOtxA4+vsGwh44msPu5B81M38J7Dtmr79SvU+84X+hROoxAp+A9m2zaQAWkTbtZj8zJnD7s4NPdor6SXiBq09n0V4U1HlMy0VHBR6TJED5lE+xEBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERA//Z" 
+                     alt="BMW X6">
+                     <div class="indisponibila">Indisponibila</div>
+                <h5 class="card-title">BMW X6</h5>
+                <p>40&euro;/zi</p>
+                 <ul class="row list-unstyled mb-3 gx-2 card-assets pt-3">
+                                    <li class="col-3"><i class="far fa-gas-pump me-2"></i>Benzina</li>
+                                    <li class="col-3"><i class="far fa-code-branch me-2"></i>automat</li>
+                                    <li class="col-3"><i class="far fa-user me-2"></i>4 portiere</li>
+                                    <li class="col-3"><i class="far fa-car me-2"></i>5 locuri</li>
+                                </ul>
+                            <span class="card-steps--title mb-3">1 - 3 zile</span>
+                                        <span class="card-steps--value mb-3">
+                                            Reducere aplicata -5 %
+                                        </span>
+                <p>Pret pentru 3 zile: 99.5&euro;</p>
+                
+            </div>
+        </div>
+        
+        <div class="col">
+            <div class="card">
+                <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxMTEhUSExMVFRUXFRUXFxUVFxgaFxgWFRUWFhcVFRgYICggGBolHRgWIzEhJSkrLi4uFyAzODMtNygtLisBCgoKDQ0NFxAPFzcdHR4tKy0tLS0tLTguLS0rLS0tLTcvLC0rNis1Ky8rNy0tLSstLzcrLSsrLS0rKy8tKy4tLv/AABEIAK8BHwMBIgACEQEDEQH/xAAcAAEAAgIDAQAAAAAAAAAAAAAABAYDBQIHCAH/xABPEAABAwICBQcIBgYIAwkAAAABAAIDBBESIQUGMUFREzJhcYGRoQcUIkJScrHBIzNikrLRFUOCosLSFkRTVWNzhJMkRfAXNFRkg5Sjw/H/xAAWAQEBAQAAAAAAAAAAAAAAAAAAAQL/xAAgEQEAAgEDBQEAAAAAAAAAAAAAARESUbHRAkFhoeEh/9oADAMBAAIRAxEAPwDvFERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBFWtJa4xNkMFO11VOOcyIjBH0zSn0Yx0Zu6Cozq2d2c8wb/hQZNHQZD6busYUFrkkDRdxAHEmw8VCn03A3bID7t3fhVSnnYTfAHHibuPe65UacuaC7k8I44bbckFqfrTANhJ7WD8TgVHk1uj3NHa8fK6psukDxWBk73nCwFxtew25ILk/XEcI/vvP8CxO11HGMdjj+SpFXLIznMe33mkfFa6SvPFB2I7XdvtR/dd/MuH9Om/2kX3T/Mus5K08VEmrrAknJB2yNdhtxx290/zKO/yjRjZhd7rXAd5K6t0Dox9ZKcxHG0Xe85BrRtJ4lWxlXHD6FIxrAP1z2tfM4+0MYIjHQBfpBQW2l18L8xTPcOLA4/Bq2EeuDfXp6ho48m75gKhOrpnbZpj1yyfC9lF0hPIGhwkkFnDFZ7s2u9E3z3XB7EHZ7NbqW9nPLDweC1bamropOY9ruohdTaO0lM5pDppTxBkeQesXsVKaTwZfjgDD96HA49pKDtdF15R6dni2PJHCT02/eYA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" 
+                  alt="Volkswagen Passat"><h5 class="card-title">Volkswagen Passat</h5>
+                <p>28&euro;/zi</p>
+                <ul class="row list-unstyled mb-3 gx-2 card-assets pt-3">
+                                    <li class="col-3"><i class="far fa-gas-pump me-2"></i>Benzina</li>
+                                    <li class="col-3"><i class="far fa-code-branch me-2"></i>automat</li>
+                                    <li class="col-3"><i class="far fa-user me-2"></i>4 portiere</li>
+                                    <li class="col-3"><i class="far fa-car me-2"></i>5 locuri</li>
+                                </ul>
+                                <span class="card-steps--title mb-3">1 - 3 zile</span>
+                                        <span class="card-steps--value mb-3">
+                                            Reducere aplicata -5 %
+                                        </span>
+                <p>Pret pentru 3 zile: 81.5&euro;</p>
+                <a href="Inchiriere.jsp" class="btn btn-warning btn-custom">Inchiriaza</a>
+            </div>
+        </div>
+        
+        <div class="col">
+            <div class="card">
+                <img src="data:image/jpeg;base64,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" 
+                    alt="Volkswagen Touareg">
+                <h5 class="card-title">Volkswagen Touareg</h5>
+                <p>30&euro;/zi</p>
+                <ul class="row list-unstyled mb-3 gx-2 card-assets pt-3">
+                                    <li class="col-3"><i class="far fa-gas-pump me-2"></i>Hybrid</li>
+                                    <li class="col-3"><i class="far fa-code-branch me-2"></i>automat</li>
+                                    <li class="col-3"><i class="far fa-user me-2"></i>4 portiere</li>
+                                    <li class="col-3"><i class="far fa-car me-2"></i>5 locuri</li>
+                                </ul>
+                                <span class="card-steps--title mb-3">1 - 3 zile</span>
+                                        <span class="card-steps--value mb-3">
+                                           Reducere aplicata  -5 %
+                                        </span>
+                <p>Pret pentru 3 zile: 86.5&euro;</p>
+                <a href="Inchiriere.jsp" class="btn btn-warning btn-custom">Inchiriaza</a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="container">
+        <div class="col">
+            <div class="card">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQYlT5CPEneY5COcvzDZlhWXwoNDg9X2t4d1Q&s" alt="Audi Q8">
+                <h5 class="card-title">Audi Q8</h5>
+                <p>35&euro;/zi</p>
+                <ul class="row list-unstyled mb-3 gx-2 card-assets pt-3">
+                                    <li class="col-3"><i class="far fa-gas-pump me-2"></i>Benzina</li>
+                                    <li class="col-3"><i class="far fa-code-branch me-2"></i>automat</li>
+                                    <li class="col-3"><i class="far fa-user me-2"></i>4 portiere</li>
+                                    <li class="col-3"><i class="far fa-car me-2"></i>5 locuri</li>
+                                </ul>
+                            <span class="card-steps--title mb-3">1 - 3 zile</span>
+                                        <span class="card-steps--value mb-3">
+                                            Reducere aplicata -5 %
+                                        </span>
+                <p>Pret pentru 3 zile: 98.5&euro;</p>
+                <a href="Inchiriere.jsp" class="btn btn-warning btn-custom">Inchiriaza</a>
+            </div>
+        </div>
+        
+        <div class="col">
+            <div class="card">
+                <img src="https://media.drive.com.au/obj/tx_q:70,rs:auto:448:252:1/caradvice/private/e14bda6563825c9658ea58973cba1127" alt="Honda CR-V">
+                <h5 class="card-title">Honda CR-V</h5>
+                <p>29&euro;/zi</p>
+                 <ul class="row list-unstyled mb-3 gx-2 card-assets pt-3">
+                                    <li class="col-3"><i class="far fa-gas-pump me-2"></i>Hybrid</li>
+                                    <li class="col-3"><i class="far fa-code-branch me-2"></i>manual</li>
+                                    <li class="col-3"><i class="far fa-user me-2"></i>4 portiere</li>
+                                    <li class="col-3"><i class="far fa-car me-2"></i>5 locuri</li>
+                                </ul>
+                                <span class="card-steps--title mb-3">1 - 3 zile</span>
+                                        <span class="card-steps--value mb-3">
+                                            Reducere aplicata -5 %
+                                        </span>
+                <p>Pret pentru 3 zile: 84.5&euro;</p>
+                <a href="Inchiriere.jsp" class="btn btn-warning btn-custom">Inchiriaza</a>
+            </div>
+        </div>
+        
+        <div class="col">
+            <div class="card">
+                <img src="https://cdn.motori.it/qEzYMzy28F1-QwHnicU2rJyfCyQ=/640x350/smart/https://www.motori.it/wp-content/uploads/2017/05/240169.jpg" alt="Audi R8">
+                <div class="indisponibila">Indisponibila</div>
+                <h5 class="card-title">Audi R8</h5>
+                <p>31&euro;/zi</p>
+                 <ul class="row list-unstyled mb-3 gx-2 card-assets pt-3">
+                                    <li class="col-3"><i class="far fa-gas-pump me-2"></i>Benzina</li>
+                                    <li class="col-3"><i class="far fa-code-branch me-2"></i>automat</li>
+                                    <li class="col-3"><i class="far fa-user me-2"></i>2 portiere</li>
+                                    <li class="col-3"><i class="far fa-car me-2"></i>2 locuri</li>
+                                </ul>
+                                <span class="card-steps--title mb-3">1 - 3 zile</span>
+                                        <span class="card-steps--value mb-3">
+                                            Reducere aplicata -5 %
+                                        </span>
+                <p>Pret pentru 3 zile: 87.75&euro;</p>
+            </div>
+        </div>
+    </div>
+   
+<form action="InchirieriAuto.jsp" method="post">
+            <button type="submit" class="btn btn-primary">Inapoi la pagina Principala</button>
+
+</form>
+<footer class="container-fluid text-center">
+        <p>&copy; 2024 Sediul de Inchiriere Auto SergiuRent. Toate drepturile rezervate.</p>
+    </footer>
+
+			
+</body>
+</html>

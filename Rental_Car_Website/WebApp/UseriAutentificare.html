@@ -1,0 +1,25 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Autentificare</title>
+</head>
+<body>
+
+<h2>Detalii Utilizator</h2>
+
+<%
+    // Obținerea obiectului UseriAutentificare din atributul "user" al obiectului request
+    InchiriereMasini.UseriAutentificare user = (InchiriereMasini.UseriAutentificare) request.getAttribute("user");
+    
+    // Afișarea informațiilor utilizatorului
+    out.println("<p>Nume: " + user.getNume() + "</p>");
+    out.println("<p>Prenume: " + user.getPrenume() + "</p>");
+    out.println("<p>ID Permis: " + user.getIdPermis() + "</p>");
+    out.println("<p>Număr Telefon: " + user.getNrTelefon() + "</p>");
+%>
+
+</body>
+</html>

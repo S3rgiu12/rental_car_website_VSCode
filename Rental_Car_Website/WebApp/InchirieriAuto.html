@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Sediul de Inchirieri Auto SergiuRent</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <style>
+        body {
+            background-image: url('https://play-lh.googleusercontent.com/u84J2O_cUHjiv3w8c-6qwZ5VuyG6jQ8dNZ_TpbRlLUHN_S2osLwekWUuGJs3greNtR13=w5120-h2880-rw'); 
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-color: #d3d3d3;
+        }
+        footer {
+            background-color: #f2f2f2;
+            padding: 25px;
+        }
+        .carousel-inner .item img {
+            height: 420px;
+            width: 100%;
+            object-fit: cover;
+        }
+        @media (max-width: 600px) {
+            .carousel-caption {
+                display: none; 
+            }
+        }
+        .container {
+            position: relative;
+        }
+        .text-block {
+            position: absolute;
+            top: 8px;
+            left: 16px;
+            bottom: 100px;
+            right: 300px;
+            background: rgba(104, 104, 104, 0.5);
+            color: white;
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+        .text {
+            position: absolute;
+            top: -130px;
+            color: white;
+        }
+        .block {
+            position: absolute;
+            top: 150px;
+            left: 16px;
+            bottom: 10px;
+            right: 20px;
+            background: rgba(16, 16, 16, 0.5);
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+       
+        .review-title, .add-review-title {
+            color: white;
+        }
+    </style>
+     
+</head>
+<body>
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>                        
+                </button>
+                <a class="navbar-brand" href="#"></a>
+            </div>
+            <div class="collapse navbar-collapse" id="myNavbar">
+                <ul class="nav navbar-nav">
+                    <li><img style="height:40px;margin: 5px" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQtmZN9Cq39g8pM_jHYAeO1LZozmAeuMW1Asc8sDhaGhg&s"></li>
+                    <li class="active"><a href="interfata.jsp">Acasa</a></li>
+                    <li><a href="${pageContext.request.contextPath}/Login.jsp">Contul meu</a></li>
+                    <li><a href="${pageContext.request.contextPath}/Despre.html">Despre</a></li>
+                    <li><a href="${pageContext.request.contextPath}/Contact.jsp">Contact</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="${pageContext.request.contextPath}/Register.jsp">
+                    <span class="log-in"></span> Inregistrare Client</a></li>
+                    <li><a href="${pageContext.request.contextPath}/Login.jsp">
+                    <span class="log-in"></span> Autentificare</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-8">
+                <div id="myCarousel" class="carousel slide" data-ride="carousel">
+                    <ol class="carousel-indicators">
+                        <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+                        <li data-target="#myCarousel" data-slide-to="1"></li>
+                        <li data-target="#myCarousel" data-slide-to="2"></li>
+                        <li data-target="#myCarousel" data-slide-to="3"></li>
+                    </ol>
+                    <div class="carousel-inner" role="listbox">
+                        <div class="item active">
+                            <img src="https://s.iw.ro/gateway/g/ZmlsZVNvdXJjZT1odHRwJTNBJTJGJTJG/c3RvcmFnZTA3dHJhbnNjb2Rlci5yY3Mt/cmRzLnJvJTJGc3RvcmFnZSUyRjIwMTcl/MkYwMyUyRjEzJTJGNzUxMzIxXzc1MTMy/MV9jYXItbG9nb3MyLmpwZyZ3PTc4MCZo/PTQ0MCZoYXNoPTVkZGQ0N2M4ZGQyNTMxOWIzNDI3NTNmZjhjNzQyOGEz.thumb.jpg" alt="Image">
+                            <div class="carousel-caption">
+                                <h3>Inchiriaza acum</h3>
+                            </div>      
+                        </div>
+                        <div class="item">
+                            <img src="https://i.pinimg.com/originals/86/fa/bd/86fabd3feeb4390fae50b82718aeb747.jpg" alt="Image">
+                            <div class="carousel-caption">
+                                <h3>Cele mai noi masini</h3>
+                            </div>      
+                        </div>
+                        <div class="item">
+                            <img src="https://www.presasm.ro/wp-content/uploads/2017/07/13873162_1069032446512328_8507059762539623566_n-2016520440-e1501176340864.jpg" alt="Image">
+                            <div class="carousel-caption">
+                                <h3>Cele mai avantajoase preturi</h3>
+                            </div>      
+                        </div>
+                        <div class="item">
+                            <img src="https://www.autovit.ro/blog/wp-content/uploads/2016/04/act-vanzare-cumparare-4.jpg" alt="Image">
+                            <div class="carousel-caption">
+                                <h3>Doar la un click distanta</h3>
+                            </div>      
+                        </div>
+                    </div>
+                    <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+                        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                    <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+                        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="well" style="height:750px; margin: 10px; background-color: #626567; opacity: 0.8;">
+                    <p><b><font style="font-family:sans-serif" size="5" color="#6699FF">ALEGE MASINA MULT VISATA </br><font color="#9e9e9e">REZERVA ACUM</font></font></b></p>
+                    <form action="MasiniFiltrare.jsp" method="post">
+                        <div class="form-group">
+                            <label for="locatieRidic">Locatie ridicare:</label>
+                            <input type="text" id="locatieRidic" name="locatieRidic" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="locatieReturn">Locatie returnare:</label>
+                            <input type="text" id="locatieReturn" name="locatieReturn" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="dataRidic">Data ridicare:</label>
+                            <input type="date" id="dataRidic" name="dataRidic" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="dataReturn">Data returnare:</label>
+                            <input type="date" id="dataReturn" name="dataReturn" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="marca">Marca:</label>
+                            <input type="text" id="marca" name="marca" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="model">Model:</label>
+                            <input type="text" id="model" name="model" class="form-control">
+                        </div>
+                         <div class="form-group">
+                            <label for="pretInchiriere">Pret Inchiriere:</label>
+                            <input type="text" id="pretInchiriere" name="pretInchiriere" class="form-control">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Cauta masina</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Reviews Section -->
+        <div class="row">
+            <div class="col-sm-12">
+                <h2 class="review-title">Recenzii de la clienti</h2>
+                <div class="well" style="background-color: #fff; opacity: 0.9;">
+                    <div class="media">
+                        <div class="media-left">
+                            <img src="data:image/jpeg;base64,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" class="media-object" style="width:64px">
+                        </div>
+                        <div class="media-body">
+                            <h4 class="media-heading">Andrei Cosmin <small><i>Scris pe 10 iunie 2024</i></small></h4>
+                            <p>Foarte multumit de serviciile oferite. Masina a fost in stare perfecta!</p>
+                            <div>
+                                <span class="glyphicon glyphicon-star"></span>
+                                <span class="glyphicon glyphicon-star"></span>
+                                <span class="glyphicon glyphicon-star"></span>
+                                <span class="glyphicon glyphicon-star"></span>
+                                <span class="glyphicon glyphicon-star-empty"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="media">
+    <div class="media-left">
+        <img src="data:image/jpeg;base64,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" class="media-object" style="width:64px">
+    </div>
+    <div class="media-body">
+        <h4 class="media-heading">Alin Grigore <small><i>Scris pe 16 iunie 2024</i></small></h4>
+        <p>Servicii excelente si personal foarte amabil!</p>
+        <div>
+            <span class="glyphicon glyphicon-star"></span>
+            <span class="glyphicon glyphicon-star"></span>
+            <span class="glyphicon glyphicon-star"></span>
+            <span class="glyphicon glyphicon-star"></span>
+            <span class="glyphicon glyphicon-star"></span>
+        </div>
+    </div>
+</div>
+                 <div class="media">
+                        <div class="media-left">
+                            <img src="data:image/jpeg;base64,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" class="media-object" style="width:64px">
+                        </div>
+                        <div class="media-body">
+                            <h4 class="media-heading">Ionut Popescu <small><i>Scris pe 12 iunie 2024</i></small></h4>
+                            <p>Foarte multumit de masina inchiriata, iar personalul este foarte bine organizat. Recomand cu incredere!</p>
+                            <div>
+                                <span class="glyphicon glyphicon-star"></span>
+                                <span class="glyphicon glyphicon-star"></span>
+                                <span class="glyphicon glyphicon-star"></span>
+                                <span class="glyphicon glyphicon-star"></span>
+                                <span class="glyphicon glyphicon-star-empty"></span>
+                            </div>
+                        </div>
+                    </div>
+                   <div class="media">
+                        <div class="media-left">
+                            <img src="data:image/jpeg;base64,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" class="media-object" style="width:64px">
+                        </div>
+                        <div class="media-body">
+                            <h4 class="media-heading">Stefan Valentin <small><i>Scris pe 20 iunie 2024</i></small></h4>
+                            <p>Masina ,identica, ca in poza din aplicatie. A fost adusa in stare perfecta! Recomand!</p>
+                            <div>
+                                <span class="glyphicon glyphicon-star"></span>
+                                <span class="glyphicon glyphicon-star"></span>
+                                <span class="glyphicon glyphicon-star"></span>
+                                <span class="glyphicon glyphicon-star"></span>
+                                <span class="glyphicon glyphicon-star-empty"></span>
+                            </div>
+                        </div>
+                    </div> 
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="container-fluid text-center">
+        <p>&copy; 2024 Sediul de Inchiriere Auto SergiuRent. Toate drepturile rezervate.</p>
+    </footer>
+</body>
+</html>

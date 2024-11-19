@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Apelare</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <style>
+        body {
+            background-image: url('https://s.widget-club.com/samples/cyTZK0pMxWXZswLfRjBwyokWcos2/XKUAkGLvkkCPxf3MvSup/AB77B6FE-6A4F-4900-9470-549EA3EC5009.jpg?q=70'); /* Adăugați adresa URL a imaginii dvs. */
+            background-size: cover; /* Acest lucru se asigură că imaginea de fundal acoperă întregul corp */
+            background-position: center; /* Centrează imaginea de fundal pe pagină */
+            background-repeat: no-repeat; /* Previne repetarea imaginii de fundal */
+            background-color: #d3d3d3; /* Culoare de fundal de rezervă dacă imaginea nu se încarcă */
+        }
+        .container {
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 50px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Apelare</h2>
+        <p>Numarul de telefon: <strong><%= request.getParameter("nrTelefon") %></strong></p>
+        <form action="CallAction.jsp" method="post">
+            <input type="hidden" name="nrTelefon" value="<%= request.getParameter("nrTelefon") %>">
+            <button type="submit" class="btn btn-success">Suna</button>
+        </form>
+    </div>
+</body>
+</html>

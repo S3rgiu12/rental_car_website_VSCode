@@ -1,0 +1,129 @@
+<%@ page import="java.util.List" %>
+<%@ page import="InchiriereMasini.Client" %>
+<%@ page import="InchiriereMasini.ConnectionJDBC" %>
+<%@ page import="java.sql.Connection" %>
+<%@ page import="java.sql.ResultSet" %>
+<%@ page import="java.sql.Statement" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Vizualizare Clienți</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <style>
+        body {
+            background: url('https://images.unsplash.com/photo-1612544448445-b8232cff3b6c?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxleHBsb3JlLWZlZWR8MXx8fGVufDB8fHx8fA%3D%3D') no-repeat center center fixed;
+            background-size: cover;
+            font-family: Arial, sans-serif;
+            color: white;
+        }
+        .container {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 50px;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .message {
+            text-align: center;
+            font-size: 18px;
+            margin-top: 20px;
+        }
+        .section {
+            margin-bottom: 20px;
+        }
+        .section h2, .section button {
+            color: white;
+        }
+        .btn {
+            margin: 5px;
+        }
+    </style>
+</head>
+<body>
+         <div class="table-container">
+            <h3 style="text-align: center; margin-bottom: 20px;">Informatii despre clientii autentificati la noi:</h3>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>ID Client</th>
+                        <th>Nume</th>
+                        <th>Prenume</th>
+                        <th>Data Nastere</th>
+                        <th>Adresa</th>
+                        <th>Telefon</th>
+                        <th>Email</th>
+                        <th>ID Permis</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <%
+                    Connection conn = null;
+                    Statement stmt = null;
+                    ResultSet rs = null;
+                    try {
+                        conn = ConnectionJDBC.getConnection();
+                        stmt = conn.createStatement();
+                        String query = "SELECT * FROM client"; // Modifică numele tabelului și coloanele conform bazei tale de date
+                        rs = stmt.executeQuery(query);
+                        while (rs.next()) {
+                            Client client = new Client(
+                                rs.getString("idClient"),
+                                rs.getString("nume"),
+                                rs.getString("prenume"),
+                                rs.getDate("dataNastere"),
+                                rs.getString("adresa"),
+                                rs.getString("telefon"),
+                                rs.getString("email"),
+                                rs.getString("idPermis")
+                                
+                            );
+                    %>
+                    <tr>
+                        <td><%= client.getIdClient() %></td>
+                        <td><%= client.getNume() %></td>
+                        <td><%= client.getPrenume() %></td>
+                        <td><%= client.getDataNastere() %></td>
+                        <td><%= client.getAdresa() %></td>
+                        <td><%= client.getTelefon() %></td>
+                        <td><%= client.getEmail() %></td>
+                        <td><%= client.getIdPermis() %></td>
+                       
+                    </tr>
+                    <%
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    } finally {
+                        if (rs != null) {
+                            try {
+                                rs.close();
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        if (stmt != null) {
+                            try {
+                                stmt.close();
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        if (conn != null) {
+                            try {
+                                conn.close();
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                    %>
+                </tbody>
+            </table>
+        </div>
+</body>
+</html>

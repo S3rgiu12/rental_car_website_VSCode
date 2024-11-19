@@ -1,0 +1,90 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" %>
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="InchiriereMasini.MasiniDisp" %>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Coșul de Rezervări</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <style>
+        body {
+            background: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcScRCCuhYa2YdTDns0D-wSPFLEX31EIDynDiQ&s') no-repeat center center fixed;
+            background-size: cover;
+            font-family: Arial, sans-serif;
+            color: white;
+        }
+        .container {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 50px;
+        }
+        h1, h2 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .table thead th {
+            background-color: #555;
+            color: white;
+        }
+        .table tbody td {
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Coșul de Rezervări</h1>
+        <h2>Numărul rezervărilor efectuate de către clientul Alin: 
+            <%= session.getAttribute("numarRezervari") != null ? session.getAttribute("numarRezervari") : 0 %>
+        </h2>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Marca</th>
+                    <th>Model</th>
+                    <th>Data Ridicării</th>
+                    <th>Data Returnării</th>
+                    <th>Vezi rezervare</th>
+                </tr>
+            </thead>
+            <tbody>
+                <%
+                    ArrayList<MasiniDisp> rezervari = (ArrayList<MasiniDisp>) session.getAttribute("rezervari");
+                    if (rezervari != null) {
+                        for (MasiniDisp masina : rezervari) {
+                %>
+                <tr>
+                    <td><%= masina.getMarca() %></td>
+                    <td><%= masina.getModel() %></td>
+                    <td><%= masina.getDataRidic() %></td>
+                    <td><%= masina.getDataReturn() %></td>
+                    <td>
+                        <form action="VeziRezervare.jsp" method="get">
+                            <input type="hidden" name="marca" value="<%= masina.getMarca() %>">
+                            <input type="hidden" name="model" value="<%= masina.getModel() %>">
+                            <input type="hidden" name="dataRidic" value="<%= masina.getDataRidic() %>">
+                            <input type="hidden" name="dataReturn" value="<%= masina.getDataReturn() %>">
+                            <button type="submit" class="btn btn-info">Vizualizare mașină</button>
+                        </form>
+                    </td>
+                </tr>
+                <%
+                        }
+                    } else {
+                %>
+                <tr>
+                    <td colspan="5">Nu există rezervări în coș.</td>
+                </tr>
+                <%
+                    }
+                %>
+            </tbody>
+        </table>
+        <form action="ContClient.jsp" method="post">
+            <button type="submit" class="btn btn-primary">Înapoi la pagina Client</button>
+        </form>
+    </div>
+</body>
+</html>
